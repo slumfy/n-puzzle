@@ -9,7 +9,7 @@ class Taquin
 {
 	public:
 	int _len; 
-	int **tab;
+	std::vector< std::vector <int> > tab;
 
 	void	move(int *troue, int *tuile);
 };
