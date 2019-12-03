@@ -9,18 +9,6 @@ CXXFLAGS	=	-std=c++98 -Wall -Wextra -Werror
 
 SRCDIR		=	srcs
 SRCFILES	=	main.cpp\
-				Colours.cpp\
-				Enemy.cpp\
-				Game.cpp\
-				MainScreen.cpp\
-				MsTimer.cpp\
-				Obstacle.cpp\
-				Projectile.cpp\
-				Player.cpp\
-				RandomGenerator.cpp\
-				Road.cpp\
-				Screen.cpp\
-				StatusScreen.cpp
 
 OBJDIR		=	objs
 OBJFILES	=	$(SRCFILES:%.cpp=$(OBJDIR)/%.o)
