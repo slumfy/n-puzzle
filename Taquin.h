@@ -13,7 +13,14 @@ class Taquin
 	int _len; 
 	std::vector< std::vector <int> > tab;
 
+	Taquin();
+	Taquin(int n);
+	~Taquin();
 	void	move(int *troue, int *tuile);
+	void	print_taquin(void);
+	int		getInvCount();
+	int		findXPosition();
+	bool	isSolvable();
 };
 
 bool	isSolvable(Taquin puzzle);

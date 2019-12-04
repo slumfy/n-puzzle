@@ -31,16 +31,6 @@ int	get_puzzle_size(Taquin *puzzle, fstream *file)
 	return (1);
 }
 
-void	print_taquin(Taquin *puzzle)
-{
-	for(int i = 0; i < puzzle->tab.size();i++)
-	{
-		for (int j = 0; j < puzzle->tab[i].size(); j++)
-			cout << puzzle->tab[i][j] << " ";
-	cout << "\n";
-}
-}
-
 int	main(int ac, char** av)
 {
 	Taquin puzzle;
@@ -63,7 +53,7 @@ int	main(int ac, char** av)
 		puzzle.tab.push_back(vec);
 	}
 	file.close();
-		print_taquin(&puzzle);
-	isSolvable(puzzle) ? cout << "Solvable" : cout << "not Solvable";
+	puzzle.print_taquin();
+	puzzle.isSolvable() ? cout << "Solvable" : cout << "not Solvable";
 	return (0);
 }
