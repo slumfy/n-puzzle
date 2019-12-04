@@ -1,5 +1,4 @@
 #include "Taquin.h"
-using namespace std;
 
 int	is_number(string str)
 {
@@ -35,8 +34,11 @@ int	get_puzzle_size(Taquin *puzzle, fstream *file)
 void	print_taquin(Taquin *puzzle)
 {
 	for(int i = 0; i < puzzle->tab.size();i++)
+	{
 		for (int j = 0; j < puzzle->tab[i].size(); j++)
 			cout << puzzle->tab[i][j] << " ";
+	cout << "\n";
+}
 }
 
 int	main(int ac, char** av)
@@ -61,6 +63,6 @@ int	main(int ac, char** av)
 		puzzle.tab.push_back(vec);
 	}
 	file.close();
-	//	print_taquin(&puzzle);
+		print_taquin(&puzzle);
 	return (0);
 }
