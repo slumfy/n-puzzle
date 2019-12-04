@@ -64,5 +64,6 @@ int	main(int ac, char** av)
 	}
 	file.close();
 		print_taquin(&puzzle);
+	isSolvable(puzzle) ? cout << "Solvable" : cout << "not Solvable";
 	return (0);
 }

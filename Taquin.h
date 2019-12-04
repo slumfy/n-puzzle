@@ -15,3 +15,5 @@ class Taquin
 
 	void	move(int *troue, int *tuile);
 };
+
+bool	isSolvable(Taquin puzzle);
