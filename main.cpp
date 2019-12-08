@@ -11,17 +11,41 @@ int	is_number(string str)
 	}
 	return (1);
 }
+
+int	is_comment(string str)
+{
+	int n = str.length();
+	char array[n + 1];
+	strcpy(array, str.c_str());
+	for (int i = 0; i < n; i++)
+	{
+		if (array[i] != '#' && !isdigit(array[i]) && !isspace(array[i]))
+			return (2);
+		if (i == 0 && array[i] == '#')
+			return (1);
+		if (atoi(array) != 0)
+			return (0);
+	}
+	return(1);
+}
+
 int	get_puzzle_size(Taquin *puzzle, fstream *file)
 {
 	string line;
+	int err;
 
 	while(getline(*file,line))
 	{
-		string comment;
-		stringstream iss(line);
-		while(iss >> comment)
+		err = is_comment(line);
+		if (err == 1)
+			continue ;
+		if (err == 2)
+			return (1);
+		if (err == 0)
 		{
-			if (is_number(comment))
+			string comment;
+			stringstream iss(line);
+			while(iss >> comment)
 			{
 				puzzle->_len = atoi(comment.c_str());
 				return (0);

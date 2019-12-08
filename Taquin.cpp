@@ -2,7 +2,6 @@
 
 Taquin::Taquin(): _len(1)
 {
-	tab[0][0] = 0;
 }
 
 Taquin::Taquin(int n): _len(n)
@@ -34,8 +33,6 @@ int	Taquin::getInvCount()
 		for (int j = 0; j < (int)tab[i].size(); j++)
 			tabl.push_back(tab[i][j]);
 	}
-	for(int i = 0; i < (int)tabl.size();i++)
-		cout << "tab: " << tabl[i] << "\n";
 	for (int i = 0; i < (_len * _len) - 1; i++) 
 	{ 
 		for (int j = i + 1; j < _len * _len; j++) 
@@ -45,6 +42,7 @@ int	Taquin::getInvCount()
 			if (tabl[j] && tabl[i] && tabl[i] > tabl[j]) 
 				inv_count++; 
 		} 
+		cout << tabl[i] << " count " << inv_count << "\n";
 	} 
 	return inv_count; 
 } 
@@ -80,6 +78,6 @@ bool Taquin::isSolvable()
 		if (pos & 1) 
 			return !(invCount & 1); 
 		else
-			return invCount & 1; 
+			return (invCount & 1); 
 	} 
 }
