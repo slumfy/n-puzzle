@@ -20,7 +20,9 @@ class Taquin
 	void	print_taquin(void);
 	int		getInvCount();
 	int		findXPosition();
+	int		findYPosition();
 	bool	isSolvable();
+	bool	isTaquin();
 };
 
 bool	isSolvable(Taquin puzzle);
