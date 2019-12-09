@@ -11,7 +11,7 @@ class Taquin
 {
 	public:
 	int _len; 
-	std::vector< std::vector <int> > tab;
+	vector< vector <int> > tab;
 
 	Taquin();
 	Taquin(int n);

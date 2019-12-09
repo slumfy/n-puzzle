@@ -2,7 +2,7 @@
 
 Taquin::Taquin(): _len(1)
 {
-	tab[0][0] = 0;
+	
 }
 
 Taquin::Taquin(int n): _len(n)
@@ -76,7 +76,7 @@ bool Taquin::isSolvable()
 	else     // grid is even 
 	{ 
 		int pos = findXPosition(); 
-	cout << "pos " << pos << "\n";
+	cout << "pos " << pos << endl;
 		if (pos & 1) 
 			return !(invCount & 1); 
 		else

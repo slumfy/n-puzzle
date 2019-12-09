@@ -11,6 +11,7 @@ int	is_number(string str)
 	}
 	return (1);
 }
+
 int	get_puzzle_size(Taquin *puzzle, fstream *file)
 {
 	string line;
@@ -54,6 +55,6 @@ int	main(int ac, char** av)
 	}
 	file.close();
 	puzzle.print_taquin();
-	puzzle.isSolvable() ? cout << "Solvable" : cout << "not Solvable";
+	puzzle.isSolvable() ? cout << "Solvable" << std::endl : cout << "not Solvable" << std::endl;
 	return (0);
 }
