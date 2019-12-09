@@ -78,6 +78,7 @@ int	main(int ac, char** av)
 	}
 	file.close();
 	puzzle.print_taquin();
+	puzzle.isTaquin() ? cout << "ok" << "\n" : cout << "bad format"<< "\n";
 	puzzle.isSolvable() ? cout << "Solvable" : cout << "not Solvable";
 	return (0);
 }

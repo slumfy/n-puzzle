@@ -79,3 +79,26 @@ bool Taquin::isSolvable()
 	int modulo = abs(_len - posX - 1) + abs(_len - posY -1);
 	return ((modulo % 2 == 0) == (invCount % 2 == 0));
 }
+
+bool Taquin::isTaquin()
+{
+	int max = (_len * _len) - 1;
+	int itab[max + 1];
+	for (int i = 0; i < max + 1; i++)
+		itab[i] = i;
+	for(int i = 0; i < (int)tab.size();i++)
+	{
+		for (int j = 0; j < (int)tab[i].size(); j++)
+		{
+			for(int k = 0; k < max + 1; k++)
+			{
+				if (tab[i][j] == itab[k])
+					itab[k] = 0;
+			}
+		}
+	}
+	for (int f = 0; f < max + 1; f++)
+		if (itab[f] != 0)
+			return (0);
+	return (1);
+}

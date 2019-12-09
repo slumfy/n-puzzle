@@ -22,6 +22,7 @@ class Taquin
 	int		findXPosition();
 	int		findYPosition();
 	bool	isSolvable();
+	bool	isTaquin();
 };
 
 bool	isSolvable(Taquin puzzle);
