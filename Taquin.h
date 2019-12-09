@@ -20,6 +20,7 @@ class Taquin
 	void	print_taquin(void);
 	int		getInvCount();
 	int		findXPosition();
+	int		findYPosition();
 	bool	isSolvable();
 };
 
