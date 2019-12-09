@@ -59,6 +59,7 @@ int	get_puzzle_size(Taquin *puzzle, fstream *file)
 int	main(int ac, char** av)
 {
 	Taquin puzzle;
+	Taquin move;
 	fstream file;
 	string line;
 	int number;
@@ -78,7 +79,23 @@ int	main(int ac, char** av)
 		puzzle.tab.push_back(vec);
 	}
 	file.close();
+	int pos = puzzle.find0Position();
+	int j = pos % puzzle._len;
+	int i = (pos - j) / puzzle._len;
+	printf("%d %d\n", i, j);
 	puzzle.print_taquin();
+	printf("move UP :\n");
+	move = puzzle.new_move((t_move)UP);
+	move.print_taquin();
+	printf("move DOWN :\n");
+	move = puzzle.new_move((t_move)DOWN);
+	move.print_taquin();
+	printf("move RIGHT :\n");
+	move = puzzle.new_move((t_move)RIGHT);
+	move.print_taquin();
+	printf("move LEFT :\n");
+	move = puzzle.new_move((t_move)LEFT);
+	move.print_taquin();
 	puzzle.isTaquin() ? cout << "ok" << "\n" : cout << "bad format"<< "\n";
 	puzzle.isSolvable() ? cout << "Solvable" : cout << "not Solvable";
 	return (0);

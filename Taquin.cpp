@@ -4,9 +4,9 @@ Taquin::Taquin(): _len(1)
 {
 }
 
-Taquin::Taquin(int n): _len(n)
+Taquin::Taquin(int n, vector<vector<int> > tabl): _len(n)
 {
-
+	tab = tabl;
 }
 
 Taquin::~Taquin()
@@ -21,6 +21,82 @@ void	Taquin::print_taquin()
 			cout << tab[i][j] << " ";
 		cout << "\n";
 	}
+}
+
+
+// c'est la case vide qu'on bouge
+void	Taquin::move(t_move move)
+{
+	int i;
+	int j;
+	int pos;
+	int tmp;
+
+	pos = find0Position();
+	j = pos % _len;
+	i = (pos - j) / _len;
+	if (move == UP && i != 0)
+	{
+		tmp = tab[i][j];
+		tab[i][j] = tab[i - 1][j];
+		tab[i - 1][j] = tmp; 
+	}
+	else if (move == DOWN && i != _len - 1)
+	{
+		tmp = tab[i][j];
+		tab[i][j] = tab[i + 1][j];
+		tab[i + 1][j] = tmp; 
+	}
+	else if (move == RIGHT && j != _len - 1)
+	{
+		tmp = tab[i][j];
+		tab[i][j] = tab[i][j + 1];
+		tab[i][j + 1] = tmp; 
+	}
+	else if (move == LEFT && j != 0)
+	{
+		tmp = tab[i][j];
+		tab[i][j] = tab[i][j - 1];
+		tab[i][j - 1] = tmp; 
+	}
+}
+
+Taquin Taquin::new_move(t_move move)
+{
+	Taquin res(_len, tab);
+	int i;
+	int j;
+	int pos;
+	int tmp;
+
+	pos = res.find0Position();
+	j = pos % res._len;
+	i = (pos - j) / res._len;
+	if (move == UP && i != 0)
+	{
+		tmp = res.tab[i][j];
+		res.tab[i][j] = res.tab[i - 1][j];
+		res.tab[i - 1][j] = tmp; 
+	}
+	else if (move == DOWN && i != _len - 1)
+	{		
+		tmp = res.tab[i][j];
+		res.tab[i][j] = res.tab[i + 1][j];
+		res.tab[i + 1][j] = tmp; 
+	}
+	else if (move == RIGHT && j != _len - 1)
+	{
+		tmp = res.tab[i][j];
+		res.tab[i][j] = res.tab[i][j + 1];
+		res.tab[i][j + 1] = tmp; 
+	}
+	else if (move == LEFT && j != 0)
+	{
+		tmp = res.tab[i][j];
+		res.tab[i][j] = res.tab[i][j - 1];
+		res.tab[i][j - 1] = tmp; 
+	}
+	return (res);
 }
 
 int	Taquin::getInvCount() 
@@ -46,6 +122,15 @@ int	Taquin::getInvCount()
 	} 
 	return inv_count; 
 } 
+
+int Taquin::find0Position()
+{
+	for (int i = 0; i < _len; i++) 
+		for (int j = 0; j < _len; j++) 
+			if (tab[i][j] == 0) 
+				return (_len * i + j);
+	return (-1);
+}
 
 // find Position of blank from bottom 
 int Taquin::findXPosition()
