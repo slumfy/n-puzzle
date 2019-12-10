@@ -102,12 +102,11 @@ Taquin Taquin::new_move(t_move move)
 int	Taquin::getInvCount() 
 { 
 	int inv_count = 0;
-	vector <int> tabl;
 
 	for(int i = 0; i < (int)tab.size();i++)
 	{
 		for (int j = 0; j < (int)tab[i].size(); j++)
-			tabl.push_back(tab[i][j]);
+			flattab.push_back(tab[i][j]);
 	}
 	for (int i = 0; i < (_len * _len) - 1; i++) 
 	{ 
@@ -115,10 +114,9 @@ int	Taquin::getInvCount()
 		{ 
 			// count pairs(i, j) such that i appears 
 			// before j, but i > j. 
-			if (tabl[j] && tabl[i] && tabl[i] > tabl[j]) 
+			if (flattab[j] && flattab[i] && flattab[i] > flattab[j]) 
 				inv_count++; 
 		} 
-		cout << tabl[i] << " count " << inv_count << "\n";
 	} 
 	return inv_count; 
 } 

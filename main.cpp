@@ -79,24 +79,43 @@ int	main(int ac, char** av)
 		puzzle.tab.push_back(vec);
 	}
 	file.close();
-	int pos = puzzle.find0Position();
-	int j = pos % puzzle._len;
-	int i = (pos - j) / puzzle._len;
-	printf("%d %d\n", i, j);
-	puzzle.print_taquin();
-	printf("move UP :\n");
-	move = puzzle.new_move((t_move)UP);
-	move.print_taquin();
-	printf("move DOWN :\n");
-	move = puzzle.new_move((t_move)DOWN);
-	move.print_taquin();
-	printf("move RIGHT :\n");
-	move = puzzle.new_move((t_move)RIGHT);
-	move.print_taquin();
-	printf("move LEFT :\n");
-	move = puzzle.new_move((t_move)LEFT);
-	move.print_taquin();
 	puzzle.isTaquin() ? cout << "ok" << "\n" : cout << "bad format"<< "\n";
-	puzzle.isSolvable() ? cout << "Solvable" : cout << "not Solvable";
+	puzzle.isSolvable() ? cout << "Solvable\n" : cout << "not Solvable\n";
+	/*
+	   int pos = puzzle.find0Position();
+	   int j = pos % puzzle._len;
+	   int i = (pos - j) / puzzle._len;
+	   printf("%d %d\n", i, j);
+	   puzzle.print_taquin();
+	   printf("move UP :\n");
+	   move = puzzle.new_move((t_move)UP);
+	   move.print_taquin();
+	   printf("move DOWN :\n");
+	   move = puzzle.new_move((t_move)DOWN);
+	   move.print_taquin();
+	   printf("move RIGHT :\n");
+	   move = puzzle.new_move((t_move)RIGHT);
+	   move.print_taquin();
+	   printf("move LEFT :\n");
+	   move = puzzle.new_move((t_move)LEFT);
+	   move.print_taquin();
+	 */
+	list<vector <int> > path;
+	int	nbiter = 0;
+	astar(puzzle.flattab, &path, &nbiter, puzzle._len);
+	cout << "nombres de moves " << path.size() - 1 << "\n";
+	int nb = 0;
+	for (vector <int> n : path)
+	{
+			
+		cout << "move: "<< nb<< "\n";
+		nb++;
+		for (int i = 0;i < n.size();i++)
+		{
+			cout << n[i] << " ";
+			if ((i + 1) % puzzle._len == 0)
+				cout  << "\n";
+		}
+	}
 	return (0);
 }
