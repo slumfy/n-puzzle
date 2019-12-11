@@ -1,11 +1,11 @@
 NAME = n-puzzle
 
-SRCS =	main.cpp Taquin.cpp Solve.cpp
+SRCS =	main.cpp Taquin.cpp 
 OBJS = $(SRCS:.cpp=.o)
 
 CXX = clang++
-CXXFLAGS = -std=c++11 -g3 #-Wall -Wextra -Werror 
-LDFLAGS = #-Wall -Wextra -Werror
+CXXFLAGS = -std=c++98 -g3 -Wall -Wextra -Werror 
+LDFLAGS = -Wall -Wextra -Werror
 
 RM = rm -rf
 

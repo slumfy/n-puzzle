@@ -33,7 +33,6 @@ class Taquin
 	public:
 	int _len; 
 	vector< vector <int> > tab;
-	vector <int> flattab;
 
 	Taquin();
 	Taquin(int n, vector<vector<int> > tabl);

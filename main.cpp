@@ -81,6 +81,7 @@ int	main(int ac, char** av)
 	file.close();
 	puzzle.isTaquin() ? cout << "ok" << "\n" : cout << "bad format"<< "\n";
 	puzzle.isSolvable() ? cout << "Solvable\n" : cout << "not Solvable\n";
+	puzzle.print_taquin();
 	/*
 	   int pos = puzzle.find0Position();
 	   int j = pos % puzzle._len;
@@ -100,22 +101,6 @@ int	main(int ac, char** av)
 	   move = puzzle.new_move((t_move)LEFT);
 	   move.print_taquin();
 	 */
-	list<vector <int> > path;
-	int	nbiter = 0;
-	astar(puzzle.flattab, &path, &nbiter, puzzle._len);
-	cout << "nombres de moves " << path.size() - 1 << "\n";
-	int nb = 0;
-	for (vector <int> n : path)
-	{
-			
-		cout << "move: "<< nb<< "\n";
-		nb++;
-		for (int i = 0;i < n.size();i++)
-		{
-			cout << n[i] << " ";
-			if ((i + 1) % puzzle._len == 0)
-				cout  << "\n";
-		}
-	}
+	//astar();
 	return (0);
 }
