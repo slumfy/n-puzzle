@@ -123,11 +123,12 @@ int	Taquin::getInvCount()
 	int tmp;
 	vector <int> tabl;
 
-	for(int i = 0; i < (int)tab.size();i++)
-	{
-		for (int j = 0; j < (int)tab[i].size(); j++)
-			tabl.push_back(tab[i][j]);
-	}
+// 	int inv_count = 0;
+// 	for(int i = 0; i < (int)tab.size();i++)
+// 	{
+// 		for (int j = 0; j < (int)tab[i].size(); j++)
+// 			flattab.push_back(tab[i][j]);
+// 	}
 
 	for (int j = 1; j < _len * _len - 1; j++)
 	{
@@ -152,6 +153,17 @@ int	Taquin::getInvCount()
 		}
 	}
 	return (parity == 1 ? 0 : 1); 
+// 	for (int i = 0; i < (_len * _len) - 1; i++) 
+// 	{ 
+// 		for (int j = i + 1; j < _len * _len; j++) 
+// 		{ 
+// 			// count pairs(i, j) such that i appears 
+// 			// before j, but i > j. 
+// 			if (flattab[j] && flattab[i] && flattab[i] > flattab[j]) 
+// 				inv_count++; 
+// 		} 
+// 	} 
+// 	return inv_count; 
 } 
 
 int Taquin::find0Position()
