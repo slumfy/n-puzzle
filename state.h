@@ -1,4 +1,5 @@
-#include "Taquin.h"
+#ifndef State_h
+# define State_h
 
 class State
 {
@@ -9,4 +10,9 @@ class State
 	int	pound;
 	int	total_pound;
 
-}
+	int	manhattan();
+	int	check_map();
+};
+
+
+#endif

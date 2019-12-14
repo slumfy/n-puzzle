@@ -1,4 +1,6 @@
 #include "Taquin.h"
+#include "State.h"
+
 
 int	is_number(string str)
 {
@@ -101,6 +103,9 @@ int	main(int ac, char** av)
 	   move = puzzle.new_move((t_move)LEFT);
 	   move.print_taquin();
 	 */
-	//astar();
+	State first;
+	first.puzzle = puzzle;
+	first.manhattan();
+	first.check_map();
 	return (0);
 }
