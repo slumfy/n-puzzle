@@ -103,9 +103,6 @@ int	main(int ac, char** av)
 	   move = puzzle.new_move((t_move)LEFT);
 	   move.print_taquin();
 	 */
-	State first;
-	first.puzzle = puzzle;
-	first.manhattan();
-	first.check_map();
+	State first(puzzle.tab, puzzle._len, NULL);
 	return (0);
 }
