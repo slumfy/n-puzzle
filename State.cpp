@@ -9,16 +9,14 @@ State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_mov
 	map = new_map;
 	size = len;
 	parent = dad;
+
 	print_taquin();
-	manhattan();
-	hasAllreadyHappened();
+	manhattan(map);
+	hasAllreadyHappened();	
 	if (parent && pound != -1)
 		total_pound += parent->pound;
 	else if (pound == -1)
 		total_pound = -1;
-
-	for (int i = 0; i < 4; i++)
-		move((t_move)i);
 }
 
 void State::move(t_move move)
@@ -29,7 +27,6 @@ void State::move(t_move move)
 	int pos;
 	int tmp;
 
-	printf("move : %d\n", move);
 	if (pound == 0)
 		return ;
 	pos = find0Position();
@@ -69,6 +66,14 @@ void State::move(t_move move)
 	}
 }
 
+void	State::create_child()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		move((t_move)i);
+	}
+}
+
 void	State::print_taquin()
 {
 	for(int i = 0; i < (int)map.size();i++)
@@ -77,6 +82,7 @@ void	State::print_taquin()
 			cout << map[i][j] << " ";
 		cout << "\n";
 	}
+		cout << "\n";
 }
 
 int State::find0Position()
@@ -93,7 +99,6 @@ void	State::hasAllreadyHappened()
 	State *papa;
 
 	papa = parent;
-	printf("coucou\n");
 	while (papa)
 	{
 		if (pound == papa->pound)
@@ -101,26 +106,22 @@ void	State::hasAllreadyHappened()
 				pound = -1;	
 		papa = papa->parent;
 	}
-	printf("coucou\n");
 
 }
 
-void	State::manhattan()
+void	State::manhattan(vector <vector <int> >vecmap)
 {
 	for (int i = 0; i < size; i++)
 	{
 		for (int j = 0; j < size; j++)
 		{
-			if (map[i][j] != 0)
+			if (vecmap[i][j] != 0)
 			{
-				pound += abs(i - (map[i][j] - 1) / size);
-					cout  << "valuei " << pound << "\t";
-				pound += abs(j - (map[i][j] - 1) % size);
-					cout  << "valuej " << pound << "\n";
+				pound += abs(i - (vecmap[i][j] - 1) / size);
+				pound += abs(j - (vecmap[i][j] - 1) % size);
 			}
 		}
 	}
-	cout << "manhattan pound " << pound << "\n";
 }
 
 void	State::check_map()
@@ -132,5 +133,4 @@ void	State::check_map()
 			if(map[i][j] != i * size + (j + 1)){
 				pound++;}}
 	}
-	cout << "map pound " << pound << "\n";
 }

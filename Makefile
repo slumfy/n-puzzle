@@ -1,6 +1,6 @@
 NAME = n-puzzle
 
-SRCS =	main.cpp Taquin.cpp State.cpp
+SRCS =	main.cpp Taquin.cpp State.cpp Astar.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 CXX = clang++

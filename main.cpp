@@ -83,7 +83,7 @@ int	main(int ac, char** av)
 	file.close();
 	puzzle.isTaquin() ? cout << "ok" << "\n" : cout << "bad format"<< "\n";
 	puzzle.isSolvable() ? cout << "Solvable\n" : cout << "not Solvable\n";
-	puzzle.print_taquin();
+//	puzzle.print_taquin();
 	/*
 	   int pos = puzzle.find0Position();
 	   int j = pos % puzzle._len;
@@ -104,5 +104,6 @@ int	main(int ac, char** av)
 	   move.print_taquin();
 	 */
 	State first(puzzle.tab, puzzle._len, NULL, NONE);
+	first.astar();
 	return (0);
 }
