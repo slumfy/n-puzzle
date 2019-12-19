@@ -1,9 +1,12 @@
-#include <iostream>
-#include <cstdio>
-#include <fstream>
-#include <vector>
-#include <string>
-#include <sstream>
+#ifndef TAQUIN_H
+# define TAQUIN_H
+
+# include <iostream>
+# include <cstdio>
+# include <fstream>
+# include <vector>
+# include <string>
+# include <sstream>
 
 using namespace std;
 
@@ -38,3 +41,5 @@ class Taquin
 };
 
 bool	isSolvable(Taquin puzzle);
+
+#endif

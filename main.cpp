@@ -1,5 +1,6 @@
 #include "Taquin.h"
 #include "State.h"
+#include "List.h"
 
 
 int	is_number(string str)
@@ -61,6 +62,7 @@ int	get_puzzle_size(Taquin *puzzle, fstream *file)
 int	main(int ac, char** av)
 {
 	Taquin puzzle;
+	List  list;
 	Taquin move;
 	fstream file;
 	string line;
@@ -104,6 +106,6 @@ int	main(int ac, char** av)
 	   move.print_taquin();
 	 */
 	State first(puzzle.tab, puzzle._len, NULL, NONE);
-	first.astar();
+	list.astar(first);
 	return (0);
 }

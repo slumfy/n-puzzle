@@ -1,5 +1,6 @@
 #include "Taquin.h"
 #include "State.h"
+#include "List.h"
 
 void	State::astar()
 {
@@ -37,10 +38,10 @@ void	State::astar()
 			}
 		}
 		if (diff == length)
-			{
+		{
 			self->pound = -1;
 			self = self->parent;
-			}
+		}
 		else
 		self = low_pound;
 	}
