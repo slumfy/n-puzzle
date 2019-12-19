@@ -14,15 +14,16 @@ void List::addToOList(State newState)
 		open_list.push_back(newState);
 		return ;
 	}
-	pound = newState.pound;
+	pound = newState.total_pound;
 	for (vector<State>::iterator it = open_list.begin(); it != open_list.end(); ++it) 
 	{
-		if (it->pound >= pound)
+		if (it->total_pound >= pound)
 		{
 			open_list.insert(it, newState);
-			break ;
+			return ;
 		}
 	}
+	open_list.insert(open_list.end(), newState);
 }
 
 void List::addToCList(State newState)
@@ -50,18 +51,36 @@ int List::in_closed_list(State state)
 void List::astar(State first)
 {
 	State current;
-	// int i = 0;
+	// static int min_pound = 100000;
+	int i = 0;
 
 	addToOList(first);
 	while (open_list.size())
 	{
 		current = open_list[0];
-		printf("pound : %d nb_coups : %d size : %d\n", current.pound, current.nb_move, current.size);
-		current.print_taquin();
-		// i = 0;
+		// printf("------ CURENT --------\n");
+		 printf("pound : %d nb_coups : %d total_pound : %d\n", current.pound, current.nb_move, current.total_pound);
+		 current.print_taquin();
+		popOList();
+		if (current.pound== 0)
+		{
+			printf("finished in %d moves\n", current.nb_move);
+			return ;
+		}
+		current.create_child();
+		i = 0;
+		for (vector<State>::iterator it = current.child.begin(); it != current.child.end(); it++)
+		{
+			// printf("%d\n", i++);
+			if (!in_closed_list(*it))
+				addToOList(*it);
+		}
+		addToCList(current);
+		i = 0;
 		// printf("OPEN LIST : size = %d\n", (int)open_list.size());
 		// while (i < (int)open_list.size())
 		// {
+		// 	printf("pound : %d nb_coups : %d total_pound : %d\n", open_list[i].pound, open_list[i].nb_move, open_list[i].total_pound);
 		// 	open_list[i].print_taquin();
 		// 	printf("\n");
 		// 	i++;
@@ -70,26 +89,13 @@ void List::astar(State first)
 		// i = 0;
 		// while (i < (int)closed_list.size())
 		// {
+		// 	printf("pound : %d nb_coups : %d total_pound : %d\n", closed_list[i].pound, closed_list[i].nb_move, closed_list[i].total_pound);
 		// 	closed_list[i].print_taquin();
 		// 	printf("\n");
 		// 	i++;
 		// }
-		// usleep(1000000);
-		popOList();
-		if (current.pound== 0)
-		{
-			printf("finished in %d moves\n", current.nb_move);
-			return ;
-		}
-		current.create_child();
-		for (vector<State>::iterator it = current.child.begin(); it != current.child.end(); it++)
-		{
-			if (!in_closed_list(*it))
-				addToOList(*it);
-			else
-				printf("sorry\n");
-		}
-		addToCList(current);
+		// printf("------ END CURENT --------\n");
+		// usleep(300000);
 	}
 }
 
