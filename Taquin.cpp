@@ -124,11 +124,16 @@ int	Taquin::getInvCount()
 	vector <int> tabl;
 
 // 	int inv_count = 0;
-// 	for(int i = 0; i < (int)tab.size();i++)
-// 	{
-// 		for (int j = 0; j < (int)tab[i].size(); j++)
-// 			flattab.push_back(tab[i][j]);
-// 	}
+ 	for(int i = 0; i < (int)tab.size();i++)
+ 	{
+ 		for (int j = 0; j < (int)tab[i].size(); j++)
+ 			tabl.push_back(tab[i][j]);
+ 	}
+ 	for(int i = 0; i < (int)tab.size();i++)
+ 	{
+ 		for (int j = 0; j < (int)tab[i].size(); j++)
+ 			flattab.push_back(tab[i][j]);
+ 	}
 
 	for (int j = 1; j < _len * _len - 1; j++)
 	{
