@@ -10,6 +10,7 @@ class State
 	int	size;
 	int	pound;
 	int	total_pound;
+	t_move last_move;
 
 	State(vector <vector <int> >new_map, int len, State *dad);
 	void	manhattan();

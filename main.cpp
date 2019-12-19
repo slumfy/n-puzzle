@@ -103,6 +103,6 @@ int	main(int ac, char** av)
 	   move = puzzle.new_move((t_move)LEFT);
 	   move.print_taquin();
 	 */
-	State first(puzzle.tab, puzzle._len, NULL);
+	State first(puzzle.tab, puzzle._len, NULL, NONE);
 	return (0);
 }

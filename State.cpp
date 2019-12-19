@@ -2,8 +2,9 @@
 #include "State.h"
 
 
-State::State(vector <vector <int> > new_map, int len, State *dad)
+State::State(vector <vector <int> > new_map, int len, State *dad, t_move move)
 {
+	last_move = move;
 	map = new_map;
 	size = len;
 	parent = dad;

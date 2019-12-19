@@ -12,7 +12,8 @@ typedef enum e_move
 	UP = 0,
 	DOWN,
 	RIGHT,
-	LEFT
+	LEFT,
+	NONE
 }			t_move;
 
 class Taquin
