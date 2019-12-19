@@ -2,9 +2,9 @@
 #include "State.h"
 
 
-State::State(vector <vector <int> > new_map, int len, State *dad, t_move move)
+State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_move)
 {
-	last_move = move;
+	last_move = lst_move;
 	map = new_map;
 	size = len;
 	parent = dad;
@@ -14,9 +14,12 @@ State::State(vector <vector <int> > new_map, int len, State *dad, t_move move)
 		total_pound += parent->pound;
 	else if (pound == -1)
 		total_pound = -1;
+
+	for (int i = 0; i < 4; i++)
+		move((t_move)i);
 }
 
-vector <vector <int> > State::move(t_move move)
+void State::move(t_move move)
 {
 	vector <vector <int> > res = map;
 	int i;
@@ -24,34 +27,43 @@ vector <vector <int> > State::move(t_move move)
 	int pos;
 	int tmp;
 
+	if (pound == 0)
+		return ;
 	pos = find0Position();
 	j = pos % size;
 	i = (pos - j) / size;
-	if (move == UP && i != 0)
+	if (move == UP && i != 0 && last_move != DOWN)
 	{
 		tmp = res[i][j];
 		res[i][j] = map[i - 1][j];
 		res[i - 1][j] = tmp;
+		State new_map(res, size, this, UP);
+		child.push_back(new_map);
 	}
-	else if (move == DOWN && i != size - 1)
+	else if (move == DOWN && i != size - 1 && last_move != UP)
 	{
 		tmp = res[i][j];
 		res[i][j] = res[i + 1][j];
 		res[i + 1][j] = tmp;
+		State new_map(res, size, this, DOWN);
+		child.push_back(new_map);
 	}
-	else if (move == RIGHT && j != size - 1)
+	else if (move == RIGHT && j != size - 1 && last_move != LEFT)
 	{
 		tmp = res[i][j];
 		res[i][j] = res[i][j + 1];
 		res[i][j + 1] = tmp;
+		State new_map(res, size, this, RIGHT);
+		child.push_back(new_map);
 	}
-	else if (move == LEFT && j != 0)
+	else if (move == LEFT && j != 0 && last_move != RIGHT)
 	{
 		tmp = res[i][j];
 		res[i][j] = res[i][j - 1];
 		res[i][j - 1] = tmp;
+		State new_map(res, size, this, LEFT);
+		child.push_back(new_map);
 	}
-	return (res);
 }
 
 int State::find0Position()
