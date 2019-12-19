@@ -7,9 +7,12 @@ State::State(vector <vector <int> > new_map, int len, State *dad)
 	map = new_map;
 	size = len;
 	parent = dad;
-	pound = manhattan();
-	if (parent)
+	manhattan();
+	hasAllreadyHappened();
+	if (parent && pound != -1)
 		total_pound += parent->pound;
+	else if (pound == -1)
+		total_pound = -1;
 }
 
 vector <vector <int> > State::move(t_move move)
@@ -59,29 +62,40 @@ int State::find0Position()
 	return (-1);
 }
 
-int	State::manhattan()
+void	State::hasAllreadyHappened()
 {
-	int	pound = 0;
+	State *papa;
+
+	papa = parent;
+	while (papa)
+	{
+		if (pound == papa->pound)
+			if (map == papa->map)
+				pound = -1;	
+		papa = parent->parent;
+	}
+}
+
+void	State::manhattan()
+{
 	for (int i = 0; i < size; i++)
 	{
 		for (int j = 0; j < size; j++)
 		{
 			if (map[i][j] != 0)
-				{
+			{
 				pound += abs(i - (map[i][j] - 1) / size);
-			cout  << "valuei " << pound << "\t";
+					cout  << "valuei " << pound << "\t";
 				pound += abs(j - (map[i][j] - 1) % size);
-			cout  << "valuej " << pound << "\n";
-				}
-}
+					cout  << "valuej " << pound << "\n";
+			}
+		}
 	}
 	cout << "manhattan pound " << pound << "\n";
-	return (pound);
 }
 
-int	State::check_map()
+void	State::check_map()
 {
-	int pound = 0;
 	for (int i = 0; i < size; i++)
 	{
 		for (int j = 0;j < size; j++)
@@ -90,5 +104,4 @@ int	State::check_map()
 				pound++;}}
 	}
 	cout << "map pound " << pound << "\n";
-	return (pound);
 }

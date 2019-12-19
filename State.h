@@ -12,10 +12,11 @@ class State
 	int	total_pound;
 
 	State(vector <vector <int> >new_map, int len, State *dad);
-	int	manhattan();
-	int	check_map();
+	void	manhattan();
+	void	check_map();
 	vector <vector <int> > move(t_move move);
 	int	find0Position();
+	void	hasAllreadyHappened();
 };
 
 
