@@ -18,6 +18,7 @@ class State
 	void	move(t_move move);
 	int	find0Position();
 	void	hasAllreadyHappened();
+	void	print_taquin(void);
 };
 
 

@@ -4,10 +4,12 @@
 
 State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_move)
 {
+	pound = 0;
 	last_move = lst_move;
 	map = new_map;
 	size = len;
 	parent = dad;
+	print_taquin();
 	manhattan();
 	hasAllreadyHappened();
 	if (parent && pound != -1)
@@ -67,6 +69,16 @@ void State::move(t_move move)
 	}
 }
 
+void	State::print_taquin()
+{
+	for(int i = 0; i < (int)map.size();i++)
+	{
+		for (int j = 0; j < (int)map[i].size(); j++)
+			cout << map[i][j] << " ";
+		cout << "\n";
+	}
+}
+
 int State::find0Position()
 {
 	for (int i = 0; i < size; i++)
@@ -87,10 +99,10 @@ void	State::hasAllreadyHappened()
 		if (pound == papa->pound)
 			if (map == papa->map)
 				pound = -1;	
-		papa = parent->parent;
+		papa = papa->parent;
 	}
 	printf("coucou\n");
-	
+
 }
 
 void	State::manhattan()
