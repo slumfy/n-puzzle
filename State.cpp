@@ -1,6 +1,6 @@
 #include "Taquin.h"
 #include "State.h"
-
+#include <unistd.h>
 
 State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_move)
 {
@@ -9,14 +9,42 @@ State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_mov
 	map = new_map;
 	size = len;
 	parent = dad;
+	total_pound = 0;
 
-	print_taquin();
+	if (parent)
+		closedList = parent->closedList;
+	hasAllreadyHappened();
+	if (pound == -1)
+		return ;
+	closedList.push_back(new_map);
+	// print_closed_list();
+	if (parent)
+		parent->closedList = closedList;
+	// usleep(500000);
 	manhattan(map);
-	hasAllreadyHappened();	
 	if (parent && pound != -1)
-		total_pound += parent->pound;
+		total_pound = parent->total_pound + parent->pound;
 	else if (pound == -1)
 		total_pound = -1;
+	else
+		total_pound = 0;
+	printf("pound : %d\ntotal_pound : %d\n",pound,  total_pound);
+}
+
+void State::print_closed_list()
+{
+	for (int k = 0; k < (int)closedList.size(); k++)
+	{
+		printf("list %d \n", k);
+		for(int i = 0; i < (int)closedList[k].size();i++)
+		{
+			for (int j = 0; j < (int)closedList[k][i].size(); j++)
+				cout << closedList[k][i][j] << " ";
+			cout << "\n";
+		}
+		cout << "\n";
+	}
+	cout << "\n";
 }
 
 void State::move(t_move move)
@@ -38,6 +66,15 @@ void State::move(t_move move)
 		res[i][j] = map[i - 1][j];
 		res[i - 1][j] = tmp;
 		State new_map(res, size, this, UP);
+		if (new_map.pound == -1)
+		{
+			printf("bouuucle\n");
+			return ;
+		}
+		printf("move UP\n");
+		print_taquin();
+		printf("\n");
+		new_map.print_taquin();
 		child.push_back(new_map);
 	}
 	else if (move == DOWN && i != size - 1 && last_move != UP)
@@ -46,6 +83,15 @@ void State::move(t_move move)
 		res[i][j] = res[i + 1][j];
 		res[i + 1][j] = tmp;
 		State new_map(res, size, this, DOWN);
+		if (new_map.pound == -1)
+		{
+			printf("bouuucle\n");
+			return ;
+		}
+		printf("move DOWN\n");
+		print_taquin();
+		printf("\n");
+		new_map.print_taquin();
 		child.push_back(new_map);
 	}
 	else if (move == RIGHT && j != size - 1 && last_move != LEFT)
@@ -54,6 +100,15 @@ void State::move(t_move move)
 		res[i][j] = res[i][j + 1];
 		res[i][j + 1] = tmp;
 		State new_map(res, size, this, RIGHT);
+		if (new_map.pound == -1)
+		{
+			printf("bouuucle\n");
+			return ;
+		}
+		printf("move RIGHT\n");
+		print_taquin();
+		printf("\n");
+		new_map.print_taquin();
 		child.push_back(new_map);
 	}
 	else if (move == LEFT && j != 0 && last_move != RIGHT)
@@ -62,6 +117,15 @@ void State::move(t_move move)
 		res[i][j] = res[i][j - 1];
 		res[i][j - 1] = tmp;
 		State new_map(res, size, this, LEFT);
+		if (new_map.pound == -1)
+		{
+			printf("bouuucle\n");
+			return ;
+		}
+		printf("move LEFT\n");
+		print_taquin();
+		printf("\n");
+		new_map.print_taquin();
 		child.push_back(new_map);
 	}
 }
@@ -82,7 +146,7 @@ void	State::print_taquin()
 			cout << map[i][j] << " ";
 		cout << "\n";
 	}
-		cout << "\n";
+	cout << "\n";
 }
 
 int State::find0Position()
@@ -96,15 +160,17 @@ int State::find0Position()
 
 void	State::hasAllreadyHappened()
 {
-	State *papa;
+	int len;
 
-	papa = parent;
-	while (papa)
+	len = closedList.size();
+	for(int i = 0; i < (int)len;i++)
 	{
-		if (pound == papa->pound)
-			if (map == papa->map)
-				pound = -1;	
-		papa = papa->parent;
+		if (map == closedList[i])
+		{
+			pound = -1;
+			printf("stoooop\n");
+			return;
+		}
 	}
 
 }

@@ -7,6 +7,8 @@ class State
 	vector <vector <int> >	map;
 	State			*parent;
 	vector <State>		child;
+	vector <vector <vector <int> > >		closedList;
+
 	int	size;
 	int	pound;
 	int	total_pound;
@@ -21,6 +23,7 @@ class State
 	void	create_child();
 	void	astar();
 	void	print_taquin(void);
+	void 	print_closed_list();
 	void	show_solution(State *self);
 };
 

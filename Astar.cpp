@@ -60,3 +60,4 @@ void	State::show_solution(State *self)
 
 	cout << "nombre de move: " << nb_move << "\n";
 }
+
