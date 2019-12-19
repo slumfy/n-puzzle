@@ -27,6 +27,7 @@ void State::move(t_move move)
 	int pos;
 	int tmp;
 
+	printf("move : %d\n", move);
 	if (pound == 0)
 		return ;
 	pos = find0Position();
@@ -80,6 +81,7 @@ void	State::hasAllreadyHappened()
 	State *papa;
 
 	papa = parent;
+	printf("coucou\n");
 	while (papa)
 	{
 		if (pound == papa->pound)
@@ -87,6 +89,8 @@ void	State::hasAllreadyHappened()
 				pound = -1;	
 		papa = parent->parent;
 	}
+	printf("coucou\n");
+	
 }
 
 void	State::manhattan()
