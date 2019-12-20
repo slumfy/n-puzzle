@@ -12,6 +12,7 @@ class List
 	vector <State >		closed_list;
 
 	List();
+	int		isInOList(State newState);
 	void	addToOList(State newState);
 	void	popOList();
 	void	addToCList(State newState);

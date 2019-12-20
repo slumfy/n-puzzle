@@ -118,48 +118,39 @@ int mini(vector <int> tabl, int i, int len)
 
 int	Taquin::getInvCount() 
 { 
-//	int parity = 1;
-//	int min;
-//	int tmp;
+	int parity = 1;
+	int min;
+	int tmp;
 	vector <int> tabl;
 
-	int inv_count = 0;
 	for(int i = 0; i < (int)tab.size();i++)
+ 	{
+ 		for (int j = 0; j < (int)tab[i].size(); j++)
+ 			tabl.push_back(tab[i][j]);
+ 	}
+	for (int j = 1; j < _len * _len - 1; j++)
 	{
-		for (int j = 0; j < (int)tab[i].size(); j++)
-			tabl.push_back(tab[i][j]);
-	}
-
-	/*	for (int j = 1; j < _len * _len - 1; j++)
-		{
 		if (tabl[j] == 0)
-		tabl[j] = _len * _len;
-		}
-		for (int i = 0; i < (int)tabl.size(); i++)
+			tabl[j] = _len * _len;
+	}
+	for (int i = 0; i < (int)tabl.size(); i++)
 		cout << tabl[i] << " ";
-		cout << endl << endl;
-		for (int j = 0; j < _len * _len; j++)
-		{
+	cout << endl << endl;
+	for (int j = 0; j < _len * _len; j++)
+	{
 		if (tabl[j] != j + 1)
 		{
-		parity *= -1;
-		min = mini(tabl, j, _len * _len);
-		tmp = tabl[j];
-		tabl[j] = tabl[min];
-		tabl[min] = tmp;
-		for (int i = 0; i < (int)tabl.size(); i++)
-		cout << tabl[i] << " ";
-		cout << endl;
+			parity *= -1;
+			min = mini(tabl, j, _len * _len);
+			tmp = tabl[j];
+			tabl[j] = tabl[min];
+			tabl[min] = tmp;
+			for (int i = 0; i < (int)tabl.size(); i++)
+				cout << tabl[i] << " ";
+			cout << endl;
 		}
-		}
-		return (parity == 1 ? 0 : 1);*/
-	for (int i = 0; i < (_len * _len) - 1; i++) 
-	{ 
-		for (int j = i + 1; j < _len * _len; j++) 
-			if (tabl[j] && tabl[i] && tabl[i] > tabl[j]) 
-				inv_count++; 
-	} 
-	return inv_count; 
+	}
+	return (parity == 1 ? 0 : 1); 
 } 
 
 int Taquin::find0Position()
@@ -198,13 +189,13 @@ bool Taquin::isSolvable()
 	int invCount = getInvCount();
 	int pos = find0Position();
 	int posX = pos % _len;
-	int posY = (pos - posX) / _len;
+	int posY = pos / _len;
 	//printf("%d %d\n", posX, posY);
 	//printf("%d %d\n", abs(_len - 1 - posX), abs(_len - 1 - posY));
 	int modulo = abs(_len - 1 - posX) + abs(_len - 1 - posY);
 
 //	printf("%d %d %d %d %d\n", posX, posY, invCount, modulo, _len);
-	return (((modulo + _len) % 2 == 0) == (invCount % 2 == 0));
+	return (((modulo + _len) % 2 == 0) == invCount);
 }
 
 bool Taquin::isTaquin()

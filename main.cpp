@@ -84,8 +84,13 @@ int	main(int ac, char** av)
 	}
 	file.close();
 	puzzle.isTaquin() ? cout << "ok" << "\n" : cout << "bad format"<< "\n";
-	puzzle.isSolvable() ? cout << "Solvable\n" : cout << "not Solvable\n";
-//	puzzle.print_taquin();
+	if (!(puzzle.isSolvable()))
+	{
+		cout << "not Solvable\n";
+		return (0);
+	}
+	cout << "Solvable\n";
+	//	puzzle.print_taquin();
 	/*
 	   int pos = puzzle.find0Position();
 	   int j = pos % puzzle._len;
