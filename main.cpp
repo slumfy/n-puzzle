@@ -59,6 +59,30 @@ int	get_puzzle_size(Taquin *puzzle, fstream *file)
 	return (1);
 }
 
+int		manage_arg(int ac,char **arg)
+{
+	for (int i = 1; i < ac; i++)
+	{
+		if (arg[i][0] == '-')
+		{
+			if (arg[i][1] == 'm')
+			{
+				cout << "manhattan\n";
+				return(i + 1);
+			}
+		}
+		else
+			return (0);
+	}
+	return (0);
+}
+
+void		print_usage()
+{
+	cout << "To Use N-puzzle solver:\n" << "./n-puzzle -X puzzle.txt\n" << "where X is the name of the heuristic function\n" << "and puzzle.txt the file where the puzzle is\n";
+
+}
+
 int	main(int ac, char** av)
 {
 	Taquin puzzle;
@@ -67,10 +91,11 @@ int	main(int ac, char** av)
 	fstream file;
 	string line;
 	int number;
+	int arg = 0;
 
-	if (ac != 2)
-		return (0);
-	file.open(av[1], ios::in);
+	if ((arg = manage_arg(ac, av)) == 0 || !av[arg])
+		print_usage();
+	file.open(av[arg], ios::in);
 	if (get_puzzle_size(&puzzle, &file))
 		return(1);
 	printf("taquin size = %d\n", puzzle._len);
