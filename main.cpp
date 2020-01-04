@@ -115,7 +115,7 @@ int	main(int ac, char** av)
 		return (0);
 	}
 	cout << "Solvable\n";
-	//	puzzle.print_taquin();
+		puzzle.print_taquin();
 	/*
 	   int pos = puzzle.find0Position();
 	   int j = pos % puzzle._len;

@@ -7,7 +7,8 @@ class State
 {
 	public:
 	vector <vector <int> >	map;
-	State			*parent;
+	State *parent;
+	vector <vector <vector <int> > > dads;
 	vector <State>		child;
 
 	int	size;
@@ -17,7 +18,8 @@ class State
 	t_move last_move;
 
 	State();
-	State(vector <vector <int> >new_map, int len, State *dad, t_move move);
+	State(vector <vector <int> >new_map, int len, State* dads, t_move move);
+	void	unravel(void);
 	void	manhattan(vector <vector <int> > vecmap);
 	void	check_map();
 	void	move(t_move move);

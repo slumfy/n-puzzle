@@ -23,14 +23,24 @@ State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_mov
 
 	manhattan(map);
 	total_pound = 0;
+	if (!parent)
+	{
+		dads.push_back(new_map);
+	}
 	if (pound == 0)
 	{
 		if (parent)
+		{
+			dads = parent->dads;
+			dads.push_back(new_map);
 			nb_move = parent->nb_move + 1;
+		}
 		return ;
 	}
 	if (parent && pound != -1)
 	{
+		dads = parent->dads;
+		dads.push_back(new_map);
 		nb_move = parent->nb_move + 1;
 		total_pound = pound + nb_move;
 	}
@@ -46,6 +56,23 @@ State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_mov
 	}
 	// pound = pound + nb_move;
 	// printf("pound : %d\ntotal_pound : %d\n",pound, total_pound);
+}
+
+void	State::unravel(void)
+{
+	// cout << "coucou";
+	for (int k = 0; k < (int)dads.size(); k++)
+	{
+		for(int i = 0; i < (int)dads[k].size();i++)
+		{
+			for (int j = 0; j < (int)dads[k][i].size(); j++)
+				cout << dads[k][i][j] << " ";
+			cout << "\n";
+		}
+		cout << "\n";
+	}
+	cout << "\n";
+
 }
 
 void State::move(t_move move)

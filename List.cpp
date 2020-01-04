@@ -79,6 +79,7 @@ void List::astar(State first)
 		if (current.pound == 0)
 		{
 			printf("finished in %d moves\n", current.nb_move);
+			current.unravel();
 			return ;
 		}
 		current.create_child();
@@ -93,7 +94,7 @@ void List::astar(State first)
 		}
 		addToCList(current);
 		// i = 0;
-		printf("OPEN LIST : size = %d, increase : %d, pound %d, total_pound %d\n", (int)open_list.size(), i - 1, current.pound, current.total_pound);
+		// printf("OPEN LIST : size = %d, increase : %d, pound %d, total_pound %d\n", (int)open_list.size(), i - 1, current.pound, current.total_pound);
 		// while (i < (int)open_list.size())
 		// {
 		// 	printf("pound : %d nb_coups : %d total_pound : %d\n", open_list[i].pound, open_list[i].nb_move, open_list[i].total_pound);
@@ -101,7 +102,7 @@ void List::astar(State first)
 		// 	printf("\n");
 		// 	i++;
 		// }
-		printf("CLOSED LIST : size = %d\n", (int)closed_list.size());
+		// printf("CLOSED LIST : size = %d\n", (int)closed_list.size());
 		// i = 0;
 		// while (i < (int)closed_list.size())
 		// {
@@ -114,24 +115,3 @@ void List::astar(State first)
 		//  usleep(500000);
 	}
 }
-
-
-/*  Fonction cheminPlusCourt(g:Graphe, objectif:Nœud, depart:Nœud)
-       closedList = File()
-       openList = FilePrioritaire(comparateur=compare2Noeuds)
-       openList.ajouter(depart)
-       tant que openList n'est pas vide
-           u = openList.depiler()
-           si u.x == objectif.x et u.y == objectif.y
-               reconstituerChemin(u)
-               terminer le programme
-           pour chaque voisin v de u dans g
-               si v existe dans closedList ou si v existe dans openList avec un cout inférieur
-                    neRienFaire()
-               sinon
-                    v.cout = u.cout +1 
-                    v.heuristique = v.cout + distance([v.x, v.y], [objectif.x, objectif.y])
-                    openList.ajouter(v)
-           closedList.ajouter(u)
-       terminer le programme (avec erreur)
-*/
