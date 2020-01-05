@@ -128,11 +128,6 @@ void List::astar(State first)
 		j = 1;
 		for (vector<State>::iterator it = current.child.begin(); it != current.child.end(); it++)
 		{
-			if (it->total_pound >= 80)
-			{
-				addToCList(*it);
-				j++;
-			}
 			else if (!(in_closed_list(*it) || isInOList(*it)))
 			{
 				addToOList(*it);
