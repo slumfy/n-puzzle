@@ -128,7 +128,7 @@ void List::astar(State first)
 		j = 1;
 		for (vector<State>::iterator it = current.child.begin(); it != current.child.end(); it++)
 		{
-			else if (!(in_closed_list(*it) || isInOList(*it)))
+			if (!(in_closed_list(*it) || isInOList(*it)))
 			{
 				addToOList(*it);
 				i++;
