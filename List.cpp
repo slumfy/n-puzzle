@@ -5,25 +5,65 @@ List::List()
 {
 }
 
+int compare(State a, State b)
+{
+	if (a.total_pound > b.total_pound)
+		return (1);
+	else if (a.total_pound < b.total_pound)
+		return (-1);
+	else
+	{
+		if (a.pound > b.pound)
+			return (1);
+		else if (a.pound < b.pound)
+			return (-1);
+		else
+			return (0);
+	}
+}
+
 void List::addToOList(State newState)
 {
-	int pound;
+	int dicho;
+	int a = 0;
+	int b = open_list.size();
 
-	if (open_list.size() == 0)
+	if (b == 0)
 	{
 		open_list.push_back(newState);
 		return ;
 	}
-	pound = newState.total_pound;
-	for (vector<State>::iterator it = open_list.begin(); it != open_list.end(); it++) 
+	if (compare(open_list[0], newState) >= 0)
 	{
-		if (it->total_pound >= pound)
+		open_list.insert(open_list.begin(), newState);
+		return ;
+	}
+	if (compare(open_list[b - 1], newState) <= 0)
+	{
+		open_list.insert(open_list.end(), newState);
+		return ;
+	}
+
+	vector<State>::iterator ite = open_list.begin();
+	
+	dicho = (b + a) / 2;
+	while (b - a > 1)
+	{
+		dicho = (b + a) / 2;
+		if (compare(open_list[dicho], newState) > 0)
+			b = dicho;
+		else if	(compare(open_list[dicho], newState) < 0)
+			a = dicho;
+		else
 		{
-			open_list.insert(it, newState);
+			open_list.insert(ite + dicho, newState);
 			return ;
 		}
 	}
-	open_list.insert(open_list.end(), newState);
+	if (compare(*(ite + dicho), newState) > 0)
+		open_list.insert((ite + dicho), newState);
+	else if	(compare(*(ite + dicho), newState) < 0)
+		open_list.insert((ite + dicho) + 1, newState);
 }
 
 int List::isInOList(State newState)
@@ -67,6 +107,7 @@ void List::astar(State first)
 	State current;
 	// static int min_pound = 100000;
 	int i;
+	int j;
 
 	addToOList(first);
 	while (open_list.size())
@@ -84,9 +125,15 @@ void List::astar(State first)
 		}
 		current.create_child();
 		i = 0;
+		j = 1;
 		for (vector<State>::iterator it = current.child.begin(); it != current.child.end(); it++)
 		{
-			if (!(in_closed_list(*it) || isInOList(*it)))
+			if (it->total_pound >= 80)
+			{
+				addToCList(*it);
+				j++;
+			}
+			else if (!(in_closed_list(*it) || isInOList(*it)))
 			{
 				addToOList(*it);
 				i++;
@@ -94,7 +141,7 @@ void List::astar(State first)
 		}
 		addToCList(current);
 		// i = 0;
-		printf("OPEN LIST : size = %d, increase : %d, pound %d, total_pound %d\n", (int)open_list.size(), i - 1, current.pound, current.total_pound);
+		printf("OPEN LIST : size = %d, increase : %2d, pound %d, total_pound %d\n", (int)open_list.size(), i - 1, current.pound, current.total_pound);
 		// while (i < (int)open_list.size())
 		// {
 		// 	printf("pound : %d nb_coups : %d total_pound : %d\n", open_list[i].pound, open_list[i].nb_move, open_list[i].total_pound);
@@ -102,7 +149,7 @@ void List::astar(State first)
 		// 	printf("\n");
 		// 	i++;
 		// }
-		printf("CLOSED LIST : size = %d\n", (int)closed_list.size());
+		printf("CLOSED LIST : size = %d, increase : %2d\n", (int)closed_list.size(), j);
 		// i = 0;
 		// while (i < (int)closed_list.size())
 		// {
