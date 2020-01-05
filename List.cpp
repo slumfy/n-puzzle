@@ -94,7 +94,7 @@ void List::astar(State first)
 		}
 		addToCList(current);
 		// i = 0;
-		// printf("OPEN LIST : size = %d, increase : %d, pound %d, total_pound %d\n", (int)open_list.size(), i - 1, current.pound, current.total_pound);
+		printf("OPEN LIST : size = %d, increase : %d, pound %d, total_pound %d\n", (int)open_list.size(), i - 1, current.pound, current.total_pound);
 		// while (i < (int)open_list.size())
 		// {
 		// 	printf("pound : %d nb_coups : %d total_pound : %d\n", open_list[i].pound, open_list[i].nb_move, open_list[i].total_pound);
@@ -102,7 +102,7 @@ void List::astar(State first)
 		// 	printf("\n");
 		// 	i++;
 		// }
-		// printf("CLOSED LIST : size = %d\n", (int)closed_list.size());
+		printf("CLOSED LIST : size = %d\n", (int)closed_list.size());
 		// i = 0;
 		// while (i < (int)closed_list.size())
 		// {

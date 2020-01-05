@@ -24,9 +24,7 @@ State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_mov
 	manhattan(map);
 	total_pound = 0;
 	if (!parent)
-	{
 		dads.push_back(new_map);
-	}
 	if (pound == 0)
 	{
 		if (parent)
@@ -54,7 +52,6 @@ State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_mov
 		nb_move = 0;
 		total_pound = 0;
 	}
-	// pound = pound + nb_move;
 	// printf("pound : %d\ntotal_pound : %d\n",pound, total_pound);
 }
 
