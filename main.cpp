@@ -2,7 +2,6 @@
 #include "State.h"
 #include "List.h"
 
-
 int	is_number(string str)
 {
 	string::const_iterator tmp = str.begin();
@@ -14,7 +13,6 @@ int	is_number(string str)
 	}
 	return (1);
 }
-
 
 int	is_comment(string str)
 {
@@ -79,8 +77,7 @@ int		manage_arg(int ac,char **arg)
 
 void		print_usage()
 {
-	cout << "To Use N-puzzle solver:\n" << "./n-puzzle -X puzzle.txt\n" << "where X is the name of the heuristic function\n" << "and puzzle.txt the file where the puzzle is\n";
-
+	cout << "N-puzzle Usage: ./N-puzzle [option] [map file]\n" << "option : -m manhattan\n" << "\t -g generator\n";
 }
 
 int	main(int ac, char** av)
