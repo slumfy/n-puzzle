@@ -77,8 +77,9 @@ int Lists::isInOList(State newState)
 		return (0);
 	for (list<State>::iterator it = open_list.begin(); it != open_list.end(); ++it) 
 	{
-		if(it->map == newState.map && it->nb_move <= newState.nb_move)
-			return (1);
+		if (it->pound == newState.pound)
+			if(it->map == newState.map && it->nb_move <= newState.nb_move)
+				return (1);
 	}
 	if(open_list.end()->map == newState.map && open_list.end()->nb_move <= newState.nb_move)
 		return (1);
@@ -88,8 +89,9 @@ int Lists::isInOList(State newState)
 void Lists::addToCList(State newState)
 {
 	for (list<State>::iterator it = closed_list.begin(); it != closed_list.end(); ++it) 
-		if (it->map == newState.map)
-			return ;
+		if (it->pound == newState.pound)
+			if (it->map == newState.map)
+				return ;
 	closed_list.push_back(newState);
 }
 
@@ -101,8 +103,9 @@ void Lists::popOList()
 int Lists::in_closed_list(State state)
 {
 	for (list<State>::iterator it = closed_list.begin(); it != closed_list.end(); ++it) 
-		if (it->map == state.map)
-			return (1);
+		if (it->pound == state.pound)
+			if (it->map == state.map)
+				return (1);
 	return (0);
 }
 
