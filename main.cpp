@@ -1,4 +1,6 @@
 #include "Taquin.h"
+#include "State.h"
+#include "List.h"
 
 int	is_number(string str)
 {
@@ -11,7 +13,6 @@ int	is_number(string str)
 	}
 	return (1);
 }
-
 
 int	is_comment(string str)
 {
@@ -56,17 +57,42 @@ int	get_puzzle_size(Taquin *puzzle, fstream *file)
 	return (1);
 }
 
+int		manage_arg(int ac,char **arg)
+{
+	for (int i = 1; i < ac; i++)
+	{
+		if (arg[i][0] == '-')
+		{
+			if (arg[i][1] == 'm')
+			{
+				cout << "manhattan\n";
+				return(i + 1);
+			}
+		}
+		else
+			return (0);
+	}
+	return (0);
+}
+
+void		print_usage()
+{
+	cout << "N-puzzle Usage: ./N-puzzle [option] [map file]\n" << "option : -m manhattan\n" << "\t -g generator\n";
+}
+
 int	main(int ac, char** av)
 {
 	Taquin puzzle;
+	List  list;
 	Taquin move;
 	fstream file;
 	string line;
 	int number;
+	int arg = 0;
 
-	if (ac != 2)
-		return (0);
-	file.open(av[1], ios::in);
+	if ((arg = manage_arg(ac, av)) == 0 || !av[arg])
+		print_usage();
+	file.open(av[arg], ios::in);
 	if (get_puzzle_size(&puzzle, &file))
 		return(1);
 	printf("taquin size = %d\n", puzzle._len);
@@ -80,7 +106,13 @@ int	main(int ac, char** av)
 	}
 	file.close();
 	puzzle.isTaquin() ? cout << "ok" << "\n" : cout << "bad format"<< "\n";
-	puzzle.isSolvable() ? cout << "Solvable\n" : cout << "not Solvable\n";
+	if (!(puzzle.isSolvable()))
+	{
+		cout << "not Solvable\n";
+		return (0);
+	}
+	cout << "Solvable\n";
+		puzzle.print_taquin();
 	/*
 	   int pos = puzzle.find0Position();
 	   int j = pos % puzzle._len;
@@ -100,22 +132,7 @@ int	main(int ac, char** av)
 	   move = puzzle.new_move((t_move)LEFT);
 	   move.print_taquin();
 	 */
-	list<vector <int> > path;
-	int	nbiter = 0;
-	astar(puzzle.flattab, &path, &nbiter, puzzle._len);
-	cout << "nombres de moves " << path.size() - 1 << "\n";
-	int nb = 0;
-	for (vector <int> n : path)
-	{
-			
-		cout << "move: "<< nb<< "\n";
-		nb++;
-		for (int i = 0;i < n.size();i++)
-		{
-			cout << n[i] << " ";
-			if ((i + 1) % puzzle._len == 0)
-				cout  << "\n";
-		}
-	}
+	State first(puzzle.tab, puzzle._len, NULL, NONE);
+	list.astar(first);
 	return (0);
 }
