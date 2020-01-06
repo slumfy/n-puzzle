@@ -26,7 +26,6 @@ class State
 	int		find0Position();
 	void	hasAllreadyHappened();
 	void	create_child();
-	void	astar();
 	void	print_taquin(void);
 	void 	print_closed_list();
 	void	show_solution(State *self);
