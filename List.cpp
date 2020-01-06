@@ -1,7 +1,7 @@
 #include "List.h"
 #include <unistd.h>
 
-List::List()
+Lists::Lists()
 {
 }
 
@@ -22,56 +22,60 @@ int compare(State a, State b)
 	}
 }
 
-void List::addToOList(State newState)
+void Lists::addToOList(State newState)
 {
 	int dicho;
 	int a = 0;
 	int b = open_list.size();
+	int i;
 
 	if (b == 0)
 	{
 		open_list.push_back(newState);
 		return ;
 	}
-	if (compare(open_list[0], newState) <= 0)
+	if (compare(open_list.front(), newState) <= 0)
 	{
-		open_list.insert(open_list.begin(),newState);	
+		open_list.push_front(newState);	
 		return ;
 	}
-	if (compare(open_list[b - 1], newState) >= 0)
+	if (compare(open_list.back(), newState) >= 0)
 	{
 		open_list.push_back(newState);
-		// open_list.insert(open_list.end(), newState);
 		return ;
 	}
 
-	vector<State>::iterator ite = open_list.begin();
+	list<State>::iterator ite = open_list.begin();
 	
 	dicho = (b + a) / 2;
 	while (b - a > 1)
 	{
 		dicho = (b + a) / 2;
-		if (compare(open_list[dicho], newState) < 0)
+		i = 0;
+		ite = open_list.begin();
+		while (i++ < dicho)
+			ite++;
+		if (compare(*(ite), newState) < 0)
 			b = dicho;
-		else if	(compare(open_list[dicho], newState) > 0)
+		else if	(compare(*(ite), newState) > 0)
 			a = dicho;
 		else
 		{
-			open_list.insert(ite + dicho, newState);
+			open_list.insert(ite, newState);
 			return ;
 		}
 	}
-	if (compare(*(ite + dicho), newState) < 0)
-		open_list.insert((ite + dicho), newState);
-	else if	(compare(*(ite + dicho), newState) > 0)
-		open_list.insert((ite + dicho) + 1, newState);
+	if (compare(*(ite), newState) < 0)
+		open_list.insert((ite), newState);
+	else if	(compare(*(ite), newState) > 0)
+		open_list.insert(++ite, newState);
 }
 
-int List::isInOList(State newState)
+int Lists::isInOList(State newState)
 {
 	if (open_list.size() == 0)
 		return (0);
-	for (vector<State>::iterator it = open_list.begin(); it != open_list.end(); ++it) 
+	for (list<State>::iterator it = open_list.begin(); it != open_list.end(); ++it) 
 	{
 		if(it->map == newState.map && it->nb_move <= newState.nb_move)
 			return (1);
@@ -81,29 +85,29 @@ int List::isInOList(State newState)
 	return (0);
 }
 
-void List::addToCList(State newState)
+void Lists::addToCList(State newState)
 {
-	for (vector<State>::iterator it = closed_list.begin(); it != closed_list.end(); ++it) 
+	for (list<State>::iterator it = closed_list.begin(); it != closed_list.end(); ++it) 
 		if (it->map == newState.map)
 			return ;
 	closed_list.push_back(newState);
 }
 
-void List::popOList()
+void Lists::popOList()
 {
 	open_list.pop_back();
 }
 
-int List::in_closed_list(State state)
+int Lists::in_closed_list(State state)
 {
-	for (vector<State>::iterator it = closed_list.begin(); it != closed_list.end(); ++it) 
+	for (list<State>::iterator it = closed_list.begin(); it != closed_list.end(); ++it) 
 		if (it->map == state.map)
 			return (1);
 	return (0);
 }
 
 
-void List::astar(State first)
+void Lists::astar(State first)
 {
 	State current;
 	// static int min_pound = 100000;
@@ -112,7 +116,7 @@ void List::astar(State first)
 	addToOList(first);
 	while (open_list.size())
 	{
-		current = open_list[open_list.size() - 1];
+		current = open_list.back();
 		// printf("------ CURENT --------\n");
 		// printf("pound : %d nb_coups : %d total_pound : %d\n", current.pound, current.nb_move, current.total_pound);
 		// current.print_taquin();

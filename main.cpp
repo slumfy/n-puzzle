@@ -83,7 +83,7 @@ void		print_usage()
 int	main(int ac, char** av)
 {
 	Taquin puzzle;
-	List  list;
+	Lists  list;
 	Taquin move;
 	fstream file;
 	string line;

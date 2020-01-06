@@ -1,17 +1,19 @@
 #ifndef LIST_H
 # define LIST_H
 
+#include <unistd.h>
+#include <list>
 #include "Taquin.h"
 #include "State.h"
 
 
-class List
+class Lists
 {
 	public:
-	vector <State >		open_list;
-	vector <State >		closed_list;
+	std::list<State >		open_list;
+	std::list<State >		closed_list;
 
-	List();
+	Lists();
 	int		isInOList(State newState);
 	void	addToOList(State newState);
 	void	popOList();
