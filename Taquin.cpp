@@ -99,23 +99,6 @@ Taquin Taquin::new_move(t_move move)
 	return (res);
 }
 
-// int mini(vector <int> tabl, int i, int len)
-// {
-// 	int j = i;
-// 	int min = tabl[j];
-
-// 	while (i < len)
-// 	{
-// 		if (tabl[i] < min)
-// 		{
-// 			min = tabl[i];
-// 			j = i;
-// 		}
-// 		i++;
-// 	}
-// 	return (j);
-// }
-
 int	Taquin::getInvCount() 
 { 
 	int inv = 0;
@@ -165,16 +148,11 @@ int Taquin::findYPosition()
 // instance of N*N - 1 puzzle is solvable 
 bool Taquin::isSolvable() 
 { 
-	// Count inversions in given puzzle 
 	int invCount = getInvCount();
-
 	int pos = find0Position();
-	// int posX = pos % _len;
 	int posY = _len - pos/_len - 1;
-	// int modulo = abs(_len - 1 - posX) + abs(_len - 1 - posY);
 
-//	printf("%d %d %d %d %d\n", posX, posY, invCount, modulo, _len);
-	return (((_len % 2) && ((invCount % 2) == 0)) || ((_len % 2 == 0) && ((posY % 2) == ((invCount % 2) == 0))));
+	return (((_len % 2) && ((invCount % 2) == 0)) || ((_len % 2 == 0) && ((posY % 2 == 0) == ((invCount % 2) == 0))));
 }
 
 bool Taquin::isTaquin()
