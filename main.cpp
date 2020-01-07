@@ -31,7 +31,7 @@ int	is_comment(string str)
 	return(1);
 }
 
-int	get_puzzle_size(Taquin *puzzle, fstream *file)
+int	get_puzzle_size(State *puzzle, fstream *file)
 {
 	string line;
 	int err;
@@ -49,7 +49,7 @@ int	get_puzzle_size(Taquin *puzzle, fstream *file)
 			stringstream iss(line);
 			while(iss >> comment)
 			{
-				puzzle->_len = atoi(comment.c_str());
+				puzzle->size = atoi(comment.c_str());
 				return (0);
 			}
 		}
@@ -80,40 +80,39 @@ void		print_usage()
 	cout << "N-puzzle Usage: ./N-puzzle [option] [map file]\n" << "option : -m manhattan\n" << "\t -g generator\n";
 }
 
+
+
 int	main(int ac, char** av)
 {
-	Taquin puzzle;
 	Lists  list;
-	Taquin move;
 	fstream file;
 	string line;
 	int number;
 	int arg = 0;
 
+	State first(vector <vector <int> >(), 0, NULL, NONE);
 	if ((arg = manage_arg(ac, av)) == 0 || !av[arg])
 		print_usage();
 	file.open(av[arg], ios::in);
-	if (get_puzzle_size(&puzzle, &file))
+	if (get_puzzle_size(&first, &file))
 		return(1);
-	printf("taquin size = %d\n", puzzle._len);
+	printf("taquin size = %d\n", first.size);
 	while (getline(file,line))
 	{
 		vector<int> vec;
 		stringstream iss(line);
 		while (iss >> number)
 			vec.push_back(number);
-		puzzle.tab.push_back(vec);
+		first.map.push_back(vec);
 	}
 	file.close();
-	puzzle.isTaquin() ? cout << "ok" << "\n" : cout << "bad format"<< "\n";
-	if (!(puzzle.isSolvable()))
+	first.isTaquin() ? cout << "ok" << "\n" : cout << "bad format"<< "\n";
+	if (!(first.isSolvable()))
 	{
 		cout << "not Solvable\n";
 		return (0);
 	}
 	cout << "Solvable\n";
-		puzzle.print_taquin();
-	State first(puzzle.tab, puzzle._len, NULL, NONE);
 	g_done =  first.create_end_map();
 	first.manhattan(first.map);
 	cout << " " << first.pound << endl;

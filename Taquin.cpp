@@ -1,19 +1,6 @@
 #include "Npuzzle.h"
 
-Taquin::Taquin(): _len(1)
-{
-}
-
-Taquin::Taquin(int n, vector<vector<int> > tabl): _len(n)
-{
-	tab = tabl;
-}
-
-Taquin::~Taquin()
-{
-}
-
-void	Taquin::print_taquin()
+void	State::print_taquin(vector <vector <int> > tab)
 {
 	for(int i = 0; i < (int)tab.size();i++)
 	{
@@ -23,151 +10,45 @@ void	Taquin::print_taquin()
 	}
 }
 
-
-// c'est la case vide qu'on bouge
-void	Taquin::move(t_move move)
-{
-	int i;
-	int j;
-	int pos;
-	int tmp;
-
-	pos = find0Position();
-	j = pos % _len;
-	i = (pos - j) / _len;
-	if (move == UP && i != 0)
-	{
-		tmp = tab[i][j];
-		tab[i][j] = tab[i - 1][j];
-		tab[i - 1][j] = tmp; 
-	}
-	else if (move == DOWN && i != _len - 1)
-	{
-		tmp = tab[i][j];
-		tab[i][j] = tab[i + 1][j];
-		tab[i + 1][j] = tmp; 
-	}
-	else if (move == RIGHT && j != _len - 1)
-	{
-		tmp = tab[i][j];
-		tab[i][j] = tab[i][j + 1];
-		tab[i][j + 1] = tmp; 
-	}
-	else if (move == LEFT && j != 0)
-	{
-		tmp = tab[i][j];
-		tab[i][j] = tab[i][j - 1];
-		tab[i][j - 1] = tmp; 
-	}
-}
-
-Taquin Taquin::new_move(t_move move)
-{
-	Taquin res(_len, tab);
-	int i;
-	int j;
-	int pos;
-	int tmp;
-
-	pos = res.find0Position();
-	j = pos % res._len;
-	i = (pos - j) / res._len;
-	if (move == UP && i != 0)
-	{
-		tmp = res.tab[i][j];
-		res.tab[i][j] = res.tab[i - 1][j];
-		res.tab[i - 1][j] = tmp; 
-	}
-	else if (move == DOWN && i != _len - 1)
-	{		
-		tmp = res.tab[i][j];
-		res.tab[i][j] = res.tab[i + 1][j];
-		res.tab[i + 1][j] = tmp; 
-	}
-	else if (move == RIGHT && j != _len - 1)
-	{
-		tmp = res.tab[i][j];
-		res.tab[i][j] = res.tab[i][j + 1];
-		res.tab[i][j + 1] = tmp; 
-	}
-	else if (move == LEFT && j != 0)
-	{
-		tmp = res.tab[i][j];
-		res.tab[i][j] = res.tab[i][j - 1];
-		res.tab[i][j - 1] = tmp; 
-	}
-	return (res);
-}
-
-int	Taquin::getInvCount() 
+int	State::getInvCount() 
 { 
 	int inv = 0;
 	vector <int> tabl;
 
-	for(int i = 0; i < (int)tab.size();i++)
+	for(int i = 0; i < (int)map.size();i++)
  	{
- 		for (int j = 0; j < (int)tab[i].size(); j++)
- 			tabl.push_back(tab[i][j]);
+ 		for (int j = 0; j < (int)map[i].size(); j++)
+ 			tabl.push_back(map[i][j]);
  	}
-	for (int j = 0; j < _len * _len; j++)
-		for (int i = j; i < _len * _len; i++)
+	for (int j = 0; j < size * size; j++)
+		for (int i = j; i < size * size; i++)
 			if (tabl[i] && tabl[i] < tabl[j])
 				inv++;
 	return (inv); 
 } 
 
-int Taquin::find0Position()
-{
-	for (int i = 0; i < _len; i++) 
-		for (int j = 0; j < _len; j++) 
-			if (tab[i][j] == 0) 
-				return (_len * i + j);
-	return (-1);
-}
-
-// find Position of blank from bottom 
-int Taquin::findXPosition()
-{ 
-	for (int i = _len - 1; i >= 0; i--) 
-		for (int j = _len - 1; j >= 0; j--) 
-			if (tab[i][j] == 0) 
-				return _len - i;
-	return (-1);
-}
-
-int Taquin::findYPosition()
-{ 
-	for (int i = _len - 1; i >= 0; i--) 
-		for (int j = _len - 1; j >= 0; j--) 
-			if (tab[i][j] == 0) 
-				return j;
-	return (-1);
-}
-
-// This function returns true if given 
-// instance of N*N - 1 puzzle is solvable 
-bool Taquin::isSolvable() 
+bool State::isSolvable() 
 { 
 	int invCount = getInvCount();
-	int pos = find0Position();
-	int posY = _len - pos/_len - 1;
+	int pos = find0Position(0);
+	int posY = size - pos/size - 1;
 
-	return (((_len % 2) && ((invCount % 2) != 0)) || ((_len % 2 == 0) && ((posY % 2 == 0) == ((invCount % 2) == 0))));
+	return (((size % 2) && ((invCount % 2) != 0)) || ((size % 2 == 0) && ((posY % 2 == 0) == ((invCount % 2) == 0))));
 }
 
-bool Taquin::isTaquin()
+bool State::isTaquin()
 {
-	int max = (_len * _len) - 1;
+	int max = (size * size) - 1;
 	int itab[max + 1];
 	for (int i = 0; i < max + 1; i++)
 		itab[i] = i;
-	for(int i = 0; i < (int)tab.size();i++)
+	for(int i = 0; i < (int)map.size();i++)
 	{
-		for (int j = 0; j < (int)tab[i].size(); j++)
+		for (int j = 0; j < (int)map[i].size(); j++)
 		{
 			for(int k = 0; k < max + 1; k++)
 			{
-				if (tab[i][j] == itab[k])
+				if (map[i][j] == itab[k])
 					itab[k] = 0;
 			}
 		}

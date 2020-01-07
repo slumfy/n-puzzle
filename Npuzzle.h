@@ -24,29 +24,6 @@ typedef enum e_move
 	NONE
 }			t_move;
 
-class Taquin
-{
-	public:
-	int _len;
-	vector< vector <int> > tab;
-
-	Taquin();
-	Taquin(int n, vector<vector<int> > tabl);
-	~Taquin();
-	void	move(int *troue, int *tuile);
-	void	print_taquin(void);
-	int		getInvCount();
-	void	move(t_move move);
-	Taquin new_move(t_move move);
-	int 	find0Position();
-	int		findXPosition();
-	int		findYPosition();
-	bool	isSolvable();
-	bool	isTaquin();
-};
-
-bool	isSolvable(Taquin puzzle);
-
 
 class State
 {
@@ -78,8 +55,15 @@ class State
 	void	print_taquin(void);
 	void 	print_closed_list();
 	void	show_solution(State *self);
+
+	void	print_taquin(vector <vector <int> > tab);
+	int		getInvCount();
+	bool	isSolvable();
+	bool	isTaquin();
+
 };
 
+bool	isSolvable(State puzzle);
 
 class Lists
 {
