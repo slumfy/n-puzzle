@@ -1,5 +1,4 @@
-#include "Taquin.h"
-#include "State.h"
+#include "Npuzzle.h"
 #include <unistd.h>
 
 
@@ -21,9 +20,9 @@ State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_mov
 	size = len;
 	parent = dad;
 	// create_end_map();
-
-	// manhattan(map);
-	heuristic(map);
+	if (g_done)
+		manhattan(map);
+	//heuristic(map);
 	total_pound = 0;
 	if (!parent)
 		dads.push_back(new_map);
@@ -82,7 +81,7 @@ void State::move(t_move move)
 	int pos;
 	int tmp;
 
-	pos = find0Position();
+	pos = find0Position(0);
 	j = pos % size;
 	i = (pos - j) / size;
 	if (move == UP && i != 0 && last_move != DOWN)
@@ -138,15 +137,15 @@ void	State::print_taquin()
 	cout << "\n";
 }
 
-int State::find0Position()
+int State::find0Position(int x)
 {
 	for (int i = 0; i < size; i++)
 		for (int j = 0; j < size; j++)
-			if (map[i][j] == 0)
+			if (map[i][j] == x)
 				return (size * i + j);
 	return (-1);
 }
-/*
+
 int		**State::getEndMap()
 {
 	static int **endmap;
@@ -188,7 +187,7 @@ int		**State::create_end_map()
 	up = 0;
 	i = pos0 / size;
 	j = pos0 % size;
-	printf("%d %d %d %d\n", pos0, i, j, right);
+	//printf("%d %d %d %d\n", pos0, i, j, right);
 	endmap[i][j] = 0;
 	j += right;
 	change = 1;
@@ -229,37 +228,36 @@ int		**State::create_end_map()
 		}
 		n++;
 		endmap[i][j] = value;
-		printf("pos %d, i %d, j %d, r %d, up %d, change %d, value %d\n\n", pos0, i, j, right, up, change, value);
-		for(int a = 0; a < size;a++)
-		{
-			for (int b = 0; b < size; b++)
-				cout << endmap[a][b] << " ";
-			cout << "\n";
-		}
-		cout << "\n";
 		i += up;
 		j += right;
 	}
-	for(int i = 0; i < size;i++)
-	{
-		for (int j = 0; j < size; j++)
-			cout << endmap[i][j] << " ";
-		cout << "\n";
-	}
-	cout << "\n";
 	return (endmap);
-}*/
+}
+
+int State::findEndPos(int x)
+{
+	for (int i = 0; i < size; i++)
+{
+		for (int j = 0; j < size; j++)
+			if (g_done[i][j] == x)
+				return (size * i + j);
+}
+	return (-1);
+}
+
 
 void	State::manhattan(vector <vector <int> >vecmap)
 {
+	int pos = 0;
 	for (int i = 0; i < size; i++)
 	{
 		for (int j = 0; j < size; j++)
 		{
 			if (vecmap[i][j] != 0)
 			{
-				pound += abs(i - (vecmap[i][j] - 1) / size);
-				pound += abs(j - (vecmap[i][j] - 1) % size);
+				pos = findEndPos(vecmap[i][j]);
+				pound += abs(i - pos  / size);
+				pound += abs(j - pos  % size);
 			}
 		}
 	}
@@ -309,8 +307,6 @@ void	State::heuristic(vector <vector <int> >vecmap)
 		j++;
 	}
 }
-
-
 
 void	State::check_map()
 {

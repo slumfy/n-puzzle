@@ -4,18 +4,17 @@ SRCS =	main.cpp Taquin.cpp State.cpp List.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 CXX = clang++
-CXXFLAGS = -std=c++98 -g3 -Wall -Wextra -Werror #-fsanitize=address 
-LDFLAGS = -g3 -Wall -Wextra -Werror #-fsanitize=address 
+FLAGS = -std=c++98 -g3 -Wall -Wextra -Werror -I./ #-fsanitize=address 
 
 RM = rm -rf
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CXX) $(LDFLAGS) $(OBJS) -o $@
+	$(CXX) $(FLAGS) $(OBJS) -o $@
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(FLAGS) -c $< -o $@
 
 clean:
 	$(RM) $(OBJS)

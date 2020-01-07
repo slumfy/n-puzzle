@@ -1,4 +1,4 @@
-#include "Taquin.h"
+#include "Npuzzle.h"
 
 Taquin::Taquin(): _len(1)
 {
@@ -152,7 +152,7 @@ bool Taquin::isSolvable()
 	int pos = find0Position();
 	int posY = _len - pos/_len - 1;
 
-	return (((_len % 2) && ((invCount % 2) == 0)) || ((_len % 2 == 0) && ((posY % 2 == 0) == ((invCount % 2) == 0))));
+	return (((_len % 2) && ((invCount % 2) != 0)) || ((_len % 2 == 0) && ((posY % 2 == 0) == ((invCount % 2) == 0))));
 }
 
 bool Taquin::isTaquin()

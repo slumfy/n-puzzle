@@ -1,4 +1,4 @@
-#include "List.h"
+#include "Npuzzle.h"
 #include <unistd.h>
 
 Lists::Lists()

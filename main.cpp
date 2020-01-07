@@ -1,6 +1,6 @@
-#include "Taquin.h"
-#include "State.h"
-#include "List.h"
+#include "Npuzzle.h"
+
+int **g_done;
 
 int	is_number(string str)
 {
@@ -113,26 +113,10 @@ int	main(int ac, char** av)
 	}
 	cout << "Solvable\n";
 		puzzle.print_taquin();
-	/*
-	   int pos = puzzle.find0Position();
-	   int j = pos % puzzle._len;
-	   int i = (pos - j) / puzzle._len;
-	   printf("%d %d\n", i, j);
-	   puzzle.print_taquin();
-	   printf("move UP :\n");
-	   move = puzzle.new_move((t_move)UP);
-	   move.print_taquin();
-	   printf("move DOWN :\n");
-	   move = puzzle.new_move((t_move)DOWN);
-	   move.print_taquin();
-	   printf("move RIGHT :\n");
-	   move = puzzle.new_move((t_move)RIGHT);
-	   move.print_taquin();
-	   printf("move LEFT :\n");
-	   move = puzzle.new_move((t_move)LEFT);
-	   move.print_taquin();
-	 */
 	State first(puzzle.tab, puzzle._len, NULL, NONE);
+	g_done =  first.create_end_map();
+	first.manhattan(first.map);
+	cout << " " << first.pound << endl;
 	list.astar(first);
 	return (0);
 }
