@@ -170,10 +170,10 @@ int		**State::create_end_map()
 	int n = 1;
 	int value = size * size;
 
-	endmap = (int**)malloc(sizeof(int*) * size + 1);
+	endmap = (int**)malloc(sizeof(int*) * (size + 2));
 	i = 0;
 	while (i <= size)
-		endmap[i++] = (int*)malloc(sizeof(int) * size + 1);
+		endmap[i++] = (int*)malloc(sizeof(int) * (size + 2));
 	i = 0;
 	while (i < size)
 	{
@@ -190,14 +190,12 @@ int		**State::create_end_map()
 	up = 0;
 	i = pos0 / size;
 	j = pos0 % size;
-	//printf("%d %d %d %d\n", pos0, i, j, right);
 	endmap[i][j] = 0;
 	j += right;
 	change = 1;
 	n = 1;
-	while(value != 0)
+	while(--value != 0)
 	{
-		value--;
 		if (!(n % ((change + 1) / 2)))
 		{
 			if (right == -1)
@@ -230,6 +228,7 @@ int		**State::create_end_map()
 			}
 		}
 		n++;
+		printf("%d %d %d %d %d\n", pos0, i, j, right, value);
 		endmap[i][j] = value;
 		i += up;
 		j += right;
