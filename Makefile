@@ -4,7 +4,7 @@ SRCS =	main.cpp Taquin.cpp State.cpp List.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 CXX = clang++
-FLAGS = -std=c++98 -g3 -Wall -Wextra -Werror -I./ #-fsanitize=address 
+FLAGS = -std=c++98 -Ofast -Wall -Wextra -Werror -I./ #-fsanitize=address 
 
 RM = rm -rf
 

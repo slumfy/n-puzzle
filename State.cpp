@@ -19,10 +19,13 @@ State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_mov
 	map = new_map;
 	size = len;
 	parent = dad;
+	nb_move = 0;
 	// create_end_map();
 	if (g_done)
-		manhattan(map);
-	//heuristic(map);
+	{
+		//manhattan(map);
+		heuristic(map);
+	}
 	total_pound = 0;
 	if (!parent)
 		dads.push_back(new_map);
@@ -277,7 +280,7 @@ void	State::heuristic(vector <vector <int> >vecmap)
 		tmpMax = -1;
 		while(j < size)
 		{
-			if (vecmap[i][j] && vecmap[i][j] / size == i)
+			if (vecmap[i][j] && i / size == findEndPos(vecmap[i][j]) / size)
 			{
 				if (vecmap[i][j] > tmpMax)
 					tmpMax = vecmap[i][j];
@@ -295,7 +298,7 @@ void	State::heuristic(vector <vector <int> >vecmap)
 		tmpMax = -1;
 		while(i < size)
 		{
-			if (vecmap[i][j] && vecmap[i][j] % size == j + 1)
+			if (vecmap[i][j] && j % size == (findEndPos(vecmap[i][j]) + 1) % size)
 			{
 				if (vecmap[i][j] > tmpMax)
 					tmpMax = vecmap[i][j];
