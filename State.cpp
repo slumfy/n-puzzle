@@ -20,8 +20,10 @@ State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_mov
 	map = new_map;
 	size = len;
 	parent = dad;
+	// create_end_map();
 
-	manhattan(map);
+	// manhattan(map);
+	heuristic(map);
 	total_pound = 0;
 	if (!parent)
 		dads.push_back(new_map);
@@ -144,6 +146,109 @@ int State::find0Position()
 				return (size * i + j);
 	return (-1);
 }
+/*
+int		**State::getEndMap()
+{
+	static int **endmap;
+
+	if (!endmap)
+		endmap = create_end_map();
+	return (endmap);
+}
+
+int		**State::create_end_map()
+{
+	int **endmap;
+	int pos0;
+	int right;
+	int up;
+	int i;
+	int j;
+	int change;
+	int n = 1;
+	int value = size * size;
+
+	endmap = (int**)malloc(sizeof(int*) * size + 1);
+	i = 0;
+	while (i <= size)
+		endmap[i++] = (int*)malloc(sizeof(int) * size + 1);
+	i = 0;
+	while (i < size)
+	{
+		j = 0;
+		while (j < size)
+			endmap[i][j++] = -1;
+		i++;
+	}
+	pos0 = size * (size / 2) + (size + 1)/2 - 1;
+	if (size % 2)
+		right = -1;
+	else
+		right = 1;
+	up = 0;
+	i = pos0 / size;
+	j = pos0 % size;
+	printf("%d %d %d %d\n", pos0, i, j, right);
+	endmap[i][j] = 0;
+	j += right;
+	change = 1;
+	n = 1;
+	while(value != 0)
+	{
+		value--;
+		if (!(n % ((change + 1) / 2)))
+		{
+			if (right == -1)
+			{
+				right = 0;
+				up = 1;
+				n = 0;
+				change++;
+			}
+			else if (right == 1)
+			{
+				right = 0;
+				up = -1;
+				n = 0;
+				change++;
+			}
+			else if (up == -1)
+			{
+				up = 0;
+				right = -1;
+				change++;
+				n = 0;
+			}
+			else if (up == 1)
+			{
+				up = 0;
+				right = 1;
+				n = 0;
+				change++;
+			}
+		}
+		n++;
+		endmap[i][j] = value;
+		printf("pos %d, i %d, j %d, r %d, up %d, change %d, value %d\n\n", pos0, i, j, right, up, change, value);
+		for(int a = 0; a < size;a++)
+		{
+			for (int b = 0; b < size; b++)
+				cout << endmap[a][b] << " ";
+			cout << "\n";
+		}
+		cout << "\n";
+		i += up;
+		j += right;
+	}
+	for(int i = 0; i < size;i++)
+	{
+		for (int j = 0; j < size; j++)
+			cout << endmap[i][j] << " ";
+		cout << "\n";
+	}
+	cout << "\n";
+	return (endmap);
+}*/
 
 void	State::manhattan(vector <vector <int> >vecmap)
 {
@@ -159,6 +264,53 @@ void	State::manhattan(vector <vector <int> >vecmap)
 		}
 	}
 }
+
+void	State::heuristic(vector <vector <int> >vecmap)
+{
+	int i;
+	int j;
+	int tmpMax;
+
+	manhattan(vecmap);
+	i = 0;
+	while (i < size)
+	{
+		j = 0;
+		tmpMax = -1;
+		while(j < size)
+		{
+			if (vecmap[i][j] && vecmap[i][j] / size == i)
+			{
+				if (vecmap[i][j] > tmpMax)
+					tmpMax = vecmap[i][j];
+				else
+					pound += 2;
+			}
+			j++;
+		}
+		i++;
+	}
+	j = 0;
+	while (j < size)
+	{
+		i = 0;
+		tmpMax = -1;
+		while(i < size)
+		{
+			if (vecmap[i][j] && vecmap[i][j] % size == j + 1)
+			{
+				if (vecmap[i][j] > tmpMax)
+					tmpMax = vecmap[i][j];
+				else
+					pound += 2;
+			}
+			i++;
+		}
+		j++;
+	}
+}
+
+
 
 void	State::check_map()
 {

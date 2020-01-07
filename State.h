@@ -21,6 +21,9 @@ class State
 	State(vector <vector <int> >new_map, int len, State* dads, t_move move);
 	void	unravel(void);
 	void	manhattan(vector <vector <int> > vecmap);
+	void	heuristic(vector <vector <int> >vecmap);
+	int		**create_end_map();
+	int		**getEndMap();
 	void	check_map();
 	void	move(t_move move);
 	int		find0Position();

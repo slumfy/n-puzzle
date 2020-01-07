@@ -134,14 +134,14 @@ void Lists::astar(State first)
 		i = 0;
 		for (vector<State>::iterator it = current.child.begin(); it != current.child.end(); it++)
 		{
-			if (!in_closed_list(*it))
+			if (!in_closed_list(*it) && ! isInOList(*it))
 			{
 				addToOList(*it);
 				i++;
 			}
 		}
 		addToCList(current);
-		// printf("OPEN LIST : size = %d, increase : %2d, pound %2d, total_pound %3d\n", (int)open_list.size(), i - 1, current.pound, current.total_pound);
+		printf("OPEN LIST : size = %d, increase : %2d, pound %2d, total_pound %3d\n", (int)open_list.size(), i - 1, current.pound, current.total_pound);
 		// i = 0;
 		// while (i < (int)open_list.size())
 		// {
@@ -150,7 +150,7 @@ void Lists::astar(State first)
 			// printf("\n");
 		// 	i++;
 		// }
-		// printf("CLOSED LIST : size = %d\n", (int)closed_list.size());
+		printf("CLOSED LIST : size = %d\n", (int)closed_list.size());
 		// i = 0;
 		// while (i < (int)closed_list.size())
 		// {
