@@ -23,8 +23,10 @@ State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_mov
 	// create_end_map();
 	if (g_done)
 	{
-		//manhattan(map);
-		heuristic(map);
+		if (g_option == 1)
+			manhattan(map);
+		else if (g_option == 2)
+			heuristic(map);
 	}
 	total_pound = 0;
 	if (!parent)
@@ -239,11 +241,11 @@ int		**State::create_end_map()
 int State::findEndPos(int x)
 {
 	for (int i = 0; i < size; i++)
-{
+	{
 		for (int j = 0; j < size; j++)
 			if (g_done[i][j] == x)
 				return (size * i + j);
-}
+	}
 	return (-1);
 }
 
@@ -315,8 +317,8 @@ void	State::check_map()
 	for (int i = 0; i < size; i++)
 	{
 		for (int j = 0;j < size; j++)
-		if(map[i][j] != 0){
-			if(map[i][j] != i * size + (j + 1)){
-				pound++;}}
+			if(map[i][j] != 0){
+				if(map[i][j] != i * size + (j + 1)){
+					pound++;}}
 	}
 }

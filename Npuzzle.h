@@ -11,7 +11,8 @@
 # include <list>
 # include <vector>
 
-extern int **g_done;
+extern int	**g_done;
+extern int	g_option;
 
 using namespace std;
 

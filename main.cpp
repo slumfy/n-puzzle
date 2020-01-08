@@ -1,6 +1,7 @@
 #include "Npuzzle.h"
 
 int **g_done;
+int g_option = 0;
 
 int	is_number(string str)
 {
@@ -65,9 +66,20 @@ int		manage_arg(int ac,char **arg)
 		{
 			if (arg[i][1] == 'm')
 			{
-				cout << "manhattan\n";
+				g_option = 1;
 				return(i + 1);
 			}
+			else if (arg[i][1] == 'l')
+			{
+				g_option = 2;
+				return(i + 1);
+			}
+			else if (arg[i][1] == 'g')
+			{
+				g_option = 4;
+				return(i + 1);
+			}
+
 		}
 		else
 			return (0);
@@ -80,7 +92,16 @@ void		print_usage()
 	cout << "N-puzzle Usage: ./N-puzzle [option] [map file]\n" << "option : -m manhattan\n" << "\t -g generator\n";
 }
 
-
+void	print_done(int size)
+{
+	cout << size << "\n";
+	for (int i = 0; i < size; i++)
+	{
+		for (int j =0;j < size;j++)
+			cout << g_done[i][j] << " ";
+		cout << "\n";
+	}
+}
 
 int	main(int ac, char** av)
 {
@@ -93,29 +114,46 @@ int	main(int ac, char** av)
 	State first(vector <vector <int> >(), 0, NULL, NONE);
 	if ((arg = manage_arg(ac, av)) == 0 || !av[arg])
 		print_usage();
-	file.open(av[arg], ios::in);
-	if (get_puzzle_size(&first, &file))
-		return(1);
-	printf("taquin size = %d\n", first.size);
-	while (getline(file,line))
+	else if (g_option != 4)
 	{
-		vector<int> vec;
-		stringstream iss(line);
-		while (iss >> number)
-			vec.push_back(number);
-		first.map.push_back(vec);
+		file.open(av[arg], ios::in);
+		if (get_puzzle_size(&first, &file))
+			return(1);
+		cout << g_option << "\n";
+		printf("taquin size = %d\n", first.size);
+		while (getline(file,line))
+		{
+			vector<int> vec;
+			stringstream iss(line);
+			while (iss >> number)
+				vec.push_back(number);
+			first.map.push_back(vec);
+		}
+		file.close();
+		first.isTaquin() ? cout << "ok" << "\n" : cout << "bad format"<< "\n";
+		if (!(first.isSolvable()))
+		{
+			cout << "not Solvable\n";
+			return (0);
+		}
+		cout << "Solvable\n";
 	}
-	file.close();
-	first.isTaquin() ? cout << "ok" << "\n" : cout << "bad format"<< "\n";
-	if (!(first.isSolvable()))
+	else 
 	{
-		cout << "not Solvable\n";
-		return (0);
+		if ((number = atoi(av[arg])) < 2)
+		{
+			print_usage();
+			return (1);
+		}
+		first.size = number;
 	}
-	cout << "Solvable\n";
 	g_done =  first.create_end_map();
+	if (g_option != 4)
+{
 	first.manhattan(first.map);
-	cout << " " << first.pound << endl;
 	list.astar(first);
+}
+else
+	print_done(first.size);
 	return (0);
 }
