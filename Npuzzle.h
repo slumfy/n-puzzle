@@ -65,8 +65,6 @@ class State
 
 };
 
-bool	isSolvable(State puzzle);
-
 class Lists
 {
 	public:
@@ -82,5 +80,12 @@ class Lists
 	void	astar(State first);
 };
 
+int		get_puzzle_size(State *puzzle, fstream *file);
+int		is_comment(string str);
+int		is_number(string str);
+void	makeMove(int move, State first);
+int		find0Position(int x, State first);
+int		manage_arg(int ac,char **arg);
+bool	isSolvable(State puzzle);
 
 #endif
