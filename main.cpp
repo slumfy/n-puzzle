@@ -89,7 +89,8 @@ int		manage_arg(int ac,char **arg)
 
 void		print_usage()
 {
-	cout << "N-puzzle Usage: ./N-puzzle [option] [map file]\n" << "option : -m manhattan\n" << "\t -g generator\n";
+	cout << "N-puzzle Usage: ./N-puzzle [option] [map file]\n";
+	cout << "option : -m manhattan\n" << "\t -l linear inter\n" << "\t -g generator [size]\n";
 }
 
 int find0Position(int x, State first)
@@ -103,7 +104,6 @@ int find0Position(int x, State first)
 
 void makeMove(int move, State first)
 {
-	int **res = g_done;
 	int i;
 	int j;
 	int pos;
@@ -114,29 +114,28 @@ void makeMove(int move, State first)
 	i = (pos - j) / first.size;
 	if (move == 0 && i != 0)
 	{
-		tmp = res[i][j];
-		res[i][j] = res[i - 1][j];
-		res[i - 1][j] = tmp;
+		tmp = g_done[i][j];
+		g_done[i][j] = g_done[i - 1][j];
+		g_done[i - 1][j] = tmp;
 	}
 	else if (move == 1 && i != first.size - 1)
 	{
-		tmp = res[i][j];
-		res[i][j] = res[i + 1][j];
-		res[i + 1][j] = tmp;
+		tmp = g_done[i][j];
+		g_done[i][j] = g_done[i + 1][j];
+		g_done[i + 1][j] = tmp;
 	}
 	else if (move == 2 && j != first.size - 1)
 	{
-		tmp = res[i][j];
-		res[i][j] = res[i][j + 1];
-		res[i][j + 1] = tmp;
+		tmp = g_done[i][j];
+		g_done[i][j] = g_done[i][j + 1];
+		g_done[i][j + 1] = tmp;
 	}
 	else if (move == 3 && j != 0)
 	{
-		tmp = res[i][j];
-		res[i][j] = res[i][j - 1];
-		res[i][j - 1] = tmp;
+		tmp = g_done[i][j];
+		g_done[i][j] = g_done[i][j - 1];
+		g_done[i][j - 1] = tmp;
 	}
-	g_done = res;
 }
 
 void	print_done(int size)
@@ -203,9 +202,9 @@ int	main(int ac, char** av)
 	else
 	{
 		int random = 0;
-		for (int i = 0 ;i < 1000;i++)
+		srand(time(NULL));
+		for (int i = 0 ;i < first.size * 1000;i++)
 		{
-			srand(time(NULL));
 			random = rand() % 4;
 			makeMove(random, first);
 		}
