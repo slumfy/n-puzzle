@@ -3,6 +3,7 @@
 
 
 # include <iostream>
+# include <time.h>
 # include <cstdio>
 # include <fstream>
 # include <vector>

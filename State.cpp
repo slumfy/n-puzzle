@@ -20,7 +20,6 @@ State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_mov
 	size = len;
 	parent = dad;
 	nb_move = 0;
-	// create_end_map();
 	if (g_done)
 	{
 		if (g_option == 1)

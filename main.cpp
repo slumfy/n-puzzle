@@ -92,6 +92,53 @@ void		print_usage()
 	cout << "N-puzzle Usage: ./N-puzzle [option] [map file]\n" << "option : -m manhattan\n" << "\t -g generator\n";
 }
 
+int find0Position(int x, State first)
+{
+	for (int i = 0; i < first.size; i++)
+		for (int j = 0; j < first.size; j++)
+			if (g_done[i][j] == x)
+				return (first.size * i + j);
+	return (-1);
+}
+
+void makeMove(int move, State first)
+{
+	int **res = g_done;
+	int i;
+	int j;
+	int pos;
+	int tmp;
+
+	pos = find0Position(0, first);
+	j = pos % first.size;
+	i = (pos - j) / first.size;
+	if (move == 0 && i != 0)
+	{
+		tmp = res[i][j];
+		res[i][j] = res[i - 1][j];
+		res[i - 1][j] = tmp;
+	}
+	else if (move == 1 && i != first.size - 1)
+	{
+		tmp = res[i][j];
+		res[i][j] = res[i + 1][j];
+		res[i + 1][j] = tmp;
+	}
+	else if (move == 2 && j != first.size - 1)
+	{
+		tmp = res[i][j];
+		res[i][j] = res[i][j + 1];
+		res[i][j + 1] = tmp;
+	}
+	else if (move == 3 && j != 0)
+	{
+		tmp = res[i][j];
+		res[i][j] = res[i][j - 1];
+		res[i][j - 1] = tmp;
+	}
+	g_done = res;
+}
+
 void	print_done(int size)
 {
 	cout << size << "\n";
@@ -149,11 +196,20 @@ int	main(int ac, char** av)
 	}
 	g_done =  first.create_end_map();
 	if (g_option != 4)
-{
-	first.manhattan(first.map);
-	list.astar(first);
-}
-else
-	print_done(first.size);
+	{
+		first.manhattan(first.map);
+		list.astar(first);
+	}
+	else
+	{
+		int random = 0;
+		for (int i = 0 ;i < 1000;i++)
+		{
+			srand(time(NULL));
+			random = rand() % 4;
+			makeMove(random, first);
+		}
+		print_done(first.size);
+	}
 	return (0);
 }
