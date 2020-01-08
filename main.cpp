@@ -47,7 +47,11 @@ int	main(int ac, char** av)
 			first.map.push_back(vec);
 		}
 		file.close();
-		first.isTaquin() ? cout << "ok" << "\n" : cout << "bad format"<< "\n";
+		if (first.isTaquin() == 0)
+		{
+			cout << "bad format"<< "\n";
+			return (1);
+		}
 		if (!(first.isSolvable()))
 		{
 			cout << "not Solvable\n";
