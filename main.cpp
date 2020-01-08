@@ -196,7 +196,10 @@ int	main(int ac, char** av)
 	g_done =  first.create_end_map();
 	if (g_option != 4)
 	{
-		first.manhattan(first.map);
+		if (g_option == 1)
+			first.manhattan(first.map);
+		else if(g_option == 2)
+			first.heuristic(first.map);
 		list.astar(first);
 	}
 	else
