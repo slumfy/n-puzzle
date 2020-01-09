@@ -4,320 +4,328 @@
 
 State::State()
 {
-	nb_move = 0;
-	pound = 0;
-	total_pound = 0;
-	last_move = (t_move)NONE;
-	size = 0;
-	parent = NULL;
+		nb_move = 0;
+		pound = 0;
+		total_pound = 0;
+		last_move = (t_move)NONE;
+		size = 0;
+		parent = NULL;
 }
 
 State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_move)
 {
-	pound = 0;
-	last_move = lst_move;
-	map = new_map;
-	size = len;
-	parent = dad;
-	nb_move = 0;
-	if (g_done)
-	{
-		if (g_option == 1)
-			manhattan(map);
-		else if (g_option == 2)
-			heuristic(map);
-	}
-	total_pound = 0;
-	if (!parent)
-		dads.push_back(new_map);
-	if (pound == 0)
-	{
-		if (parent)
-		{
-			dads = parent->dads;
-			dads.push_back(new_map);
-			nb_move = parent->nb_move + 1;
-		}
-		return ;
-	}
-	if (parent && pound != -1)
-	{
-		dads = parent->dads;
-		dads.push_back(new_map);
-		nb_move = parent->nb_move + 1;
-		total_pound = pound + nb_move;
-	}
-	else if (pound == -1)
-	{
-		total_pound = -1;
-		nb_move = -1;
-	}
-	else
-	{
+		pound = 0;
+		last_move = lst_move;
+		map = new_map;
+		size = len;
+		parent = dad;
 		nb_move = 0;
+		if (g_done)
+		{
+				if (g_option == 1)
+						manhattan(map);
+				else if (g_option == 2)
+						heuristic(map);
+				else if (g_option == 3)
+						check_map(map);
+		}
 		total_pound = 0;
-	}
-	// printf("pound : %d\ntotal_pound : %d\n",pound, total_pound);
+		if (!parent)
+				dads.push_back(new_map);
+		if (pound == 0)
+		{
+				if (parent)
+				{
+						dads = parent->dads;
+						dads.push_back(new_map);
+						nb_move = parent->nb_move + 1;
+				}
+				return ;
+		}
+		if (parent && pound != -1)
+		{
+				dads = parent->dads;
+				dads.push_back(new_map);
+				nb_move = parent->nb_move + 1;
+				total_pound = pound + nb_move;
+		}
+		else if (pound == -1)
+		{
+				total_pound = -1;
+				nb_move = -1;
+		}
+		else
+		{
+				nb_move = 0;
+				total_pound = 0;
+		}
+		// printf("pound : %d\ntotal_pound : %d\n",pound, total_pound);
 }
 
 void	State::unravel(void)
 {
-	// cout << "coucou";
-	for (int k = 0; k < (int)dads.size(); k++)
-	{
-		for(int i = 0; i < (int)dads[k].size();i++)
+		// cout << "coucou";
+		for (int k = 0; k < (int)dads.size(); k++)
 		{
-			for (int j = 0; j < (int)dads[k][i].size(); j++)
-				cout << dads[k][i][j] << " ";
-			cout << "\n";
+				for(int i = 0; i < (int)dads[k].size();i++)
+				{
+						for (int j = 0; j < (int)dads[k][i].size(); j++)
+								cout << dads[k][i][j] << " ";
+						cout << "\n";
+				}
+				cout << "\n";
 		}
 		cout << "\n";
-	}
-	cout << "\n";
 
 }
 
 void State::move(t_move move)
 {
-	vector <vector <int> > res = map;
-	int i;
-	int j;
-	int pos;
-	int tmp;
+		vector <vector <int> > res = map;
+		int i;
+		int j;
+		int pos;
+		int tmp;
 
-	pos = find0Position(0);
-	j = pos % size;
-	i = (pos - j) / size;
-	if (move == UP && i != 0 && last_move != DOWN)
-	{
-		tmp = res[i][j];
-		res[i][j] = map[i - 1][j];
-		res[i - 1][j] = tmp;
-		State new_map(res, size, this, UP);
-		child.push_back(new_map);
-	}
-	else if (move == DOWN && i != size - 1 && last_move != UP)
-	{
-		tmp = res[i][j];
-		res[i][j] = res[i + 1][j];
-		res[i + 1][j] = tmp;
-		State new_map(res, size, this, DOWN);
-		child.push_back(new_map);
-	}
-	else if (move == RIGHT && j != size - 1 && last_move != LEFT)
-	{
-		tmp = res[i][j];
-		res[i][j] = res[i][j + 1];
-		res[i][j + 1] = tmp;
-		State new_map(res, size, this, RIGHT);
-		child.push_back(new_map);
-	}
-	else if (move == LEFT && j != 0 && last_move != RIGHT)
-	{
-		tmp = res[i][j];
-		res[i][j] = res[i][j - 1];
-		res[i][j - 1] = tmp;
-		State new_map(res, size, this, LEFT);
-		child.push_back(new_map);
-	}
+		pos = find0Position(0);
+		j = pos % size;
+		i = (pos - j) / size;
+		if (move == UP && i != 0 && last_move != DOWN)
+		{
+				tmp = res[i][j];
+				res[i][j] = map[i - 1][j];
+				res[i - 1][j] = tmp;
+				State new_map(res, size, this, UP);
+				child.push_back(new_map);
+		}
+		else if (move == DOWN && i != size - 1 && last_move != UP)
+		{
+				tmp = res[i][j];
+				res[i][j] = res[i + 1][j];
+				res[i + 1][j] = tmp;
+				State new_map(res, size, this, DOWN);
+				child.push_back(new_map);
+		}
+		else if (move == RIGHT && j != size - 1 && last_move != LEFT)
+		{
+				tmp = res[i][j];
+				res[i][j] = res[i][j + 1];
+				res[i][j + 1] = tmp;
+				State new_map(res, size, this, RIGHT);
+				child.push_back(new_map);
+		}
+		else if (move == LEFT && j != 0 && last_move != RIGHT)
+		{
+				tmp = res[i][j];
+				res[i][j] = res[i][j - 1];
+				res[i][j - 1] = tmp;
+				State new_map(res, size, this, LEFT);
+				child.push_back(new_map);
+		}
 }
 
 void	State::create_child()
 {
-	for (int i = 0; i < 4; i++)
-	{
-		move((t_move)i);
-	}
+		for (int i = 0; i < 4; i++)
+		{
+				move((t_move)i);
+		}
 }
 
 void	State::print_taquin()
 {
-	for(int i = 0; i < (int)map.size();i++)
-	{
-		for (int j = 0; j < (int)map[i].size(); j++)
-			cout << map[i][j] << " ";
+		for(int i = 0; i < (int)map.size();i++)
+		{
+				for (int j = 0; j < (int)map[i].size(); j++)
+						cout << map[i][j] << " ";
+				cout << "\n";
+		}
 		cout << "\n";
-	}
-	cout << "\n";
 }
 
 int State::find0Position(int x)
 {
-	for (int i = 0; i < size; i++)
-		for (int j = 0; j < size; j++)
-			if (map[i][j] == x)
-				return (size * i + j);
-	return (-1);
+		for (int i = 0; i < size; i++)
+				for (int j = 0; j < size; j++)
+						if (map[i][j] == x)
+								return (size * i + j);
+		return (-1);
 }
 
 int		**State::getEndMap()
 {
-	static int **endmap;
+		static int **endmap;
 
-	if (!endmap)
-		endmap = create_end_map();
-	return (endmap);
+		if (!endmap)
+				endmap = create_end_map();
+		return (endmap);
 }
 
 int		**State::create_end_map()
 {
-	int **endmap;
-	int pos0;
-	int right;
-	int up;
-	int i;
-	int j;
-	int change;
-	int n = 1;
-	int value = size * size;
+		int **endmap;
+		int pos0;
+		int right;
+		int up;
+		int i;
+		int j;
+		int change;
+		int n = 1;
+		int value = size * size;
 
-	endmap = (int**)malloc(sizeof(int*) * size);
-	i = 0;
-	while (i < size)
-		endmap[i++] = (int*)malloc(sizeof(int) * size);
-	i = 0;
-	while (i < size)
-	{
-		j = 0;
-		while (j < size)
-			endmap[i][j++] = -1;
-		i++;
-	}
-	pos0 = size * (size / 2) + (size + 1)/2 - 1;
-	if (size % 2)
-		right = -1;
-	else
-		right = 1;
-	up = 0;
-	i = pos0 / size;
-	j = pos0 % size;
-	endmap[i][j] = 0;
-	j += right;
-	change = 1;
-	n = 1;
-	while(--value != 0)
-	{
-		if (!(n % ((change + 1) / 2)))
+		endmap = (int**)malloc(sizeof(int*) * size);
+		i = 0;
+		while (i < size)
+				endmap[i++] = (int*)malloc(sizeof(int) * size);
+		i = 0;
+		while (i < size)
 		{
-			if (right == -1)
-			{
-				right = 0;
-				up = 1;
-				n = 0;
-				change++;
-			}
-			else if (right == 1)
-			{
-				right = 0;
-				up = -1;
-				n = 0;
-				change++;
-			}
-			else if (up == -1)
-			{
-				up = 0;
-				right = -1;
-				change++;
-				n = 0;
-			}
-			else if (up == 1)
-			{
-				up = 0;
-				right = 1;
-				n = 0;
-				change++;
-			}
+				j = 0;
+				while (j < size)
+						endmap[i][j++] = -1;
+				i++;
 		}
-		n++;
-		//printf("%d %d %d %d %d\n", pos0, i, j, right, value);
-		endmap[i][j] = value;
-		i += up;
+		pos0 = size * (size / 2) + (size + 1)/2 - 1;
+		if (size % 2)
+				right = -1;
+		else
+				right = 1;
+		up = 0;
+		i = pos0 / size;
+		j = pos0 % size;
+		endmap[i][j] = 0;
 		j += right;
-	}
-	return (endmap);
+		change = 1;
+		n = 1;
+		while(--value != 0)
+		{
+				if (!(n % ((change + 1) / 2)))
+				{
+						if (right == -1)
+						{
+								right = 0;
+								up = 1;
+								n = 0;
+								change++;
+						}
+						else if (right == 1)
+						{
+								right = 0;
+								up = -1;
+								n = 0;
+								change++;
+						}
+						else if (up == -1)
+						{
+								up = 0;
+								right = -1;
+								change++;
+								n = 0;
+						}
+						else if (up == 1)
+						{
+								up = 0;
+								right = 1;
+								n = 0;
+								change++;
+						}
+				}
+				n++;
+				//printf("%d %d %d %d %d\n", pos0, i, j, right, value);
+				endmap[i][j] = value;
+				i += up;
+				j += right;
+		}
+		return (endmap);
 }
 
 int State::findEndPos(int x)
 {
-	for (int i = 0; i < size; i++)
-	{
-		for (int j = 0; j < size; j++)
-			if (g_done[i][j] == x)
-				return (size * i + j);
-	}
-	return (-1);
+		for (int i = 0; i < size; i++)
+		{
+				for (int j = 0; j < size; j++)
+						if (g_done[i][j] == x)
+								return (size * i + j);
+		}
+		return (-1);
 }
 
 
 void	State::manhattan(vector <vector <int> >vecmap)
 {
-	int pos = 0;
-	for (int i = 0; i < size; i++)
-	{
-		for (int j = 0; j < size; j++)
+		int pos = 0;
+		for (int i = 0; i < size; i++)
 		{
-			if (vecmap[i][j] != 0)
-			{
-				pos = findEndPos(vecmap[i][j]);
-				pound += abs(i - pos  / size);
-				pound += abs(j - pos  % size);
-			}
+				for (int j = 0; j < size; j++)
+				{
+						if (vecmap[i][j] != 0)
+						{
+								pos = findEndPos(vecmap[i][j]);
+								pound += abs(i - pos  / size);
+								pound += abs(j - pos  % size);
+						}
+				}
 		}
-	}
 }
 
 void	State::heuristic(vector <vector <int> >vecmap)
 {
-	int i;
-	int j;
-	int tmpMax;
+		int i;
+		int j;
+		int tmpMax;
 
-	manhattan(vecmap);
-	i = 0;
-	while (i < size)
-	{
-		j = 0;
-		tmpMax = -1;
-		while(j < size)
-		{
-			if (vecmap[i][j] && i / size == findEndPos(vecmap[i][j]) / size)
-			{
-				if (vecmap[i][j] > tmpMax)
-					tmpMax = vecmap[i][j];
-				else
-					pound += 2;
-			}
-			j++;
-		}
-		i++;
-	}
-	j = 0;
-	while (j < size)
-	{
+		manhattan(vecmap);
 		i = 0;
-		tmpMax = -1;
-		while(i < size)
+		while (i < size)
 		{
-			if (vecmap[i][j] && j % size == (findEndPos(vecmap[i][j]) + 1) % size)
-			{
-				if (vecmap[i][j] > tmpMax)
-					tmpMax = vecmap[i][j];
-				else
-					pound += 2;
-			}
-			i++;
+				j = 0;
+				tmpMax = -1;
+				while(j < size)
+				{
+						if (vecmap[i][j] && i / size == findEndPos(vecmap[i][j]) / size)
+						{
+								if (vecmap[i][j] > tmpMax)
+										tmpMax = vecmap[i][j];
+								else
+										pound += 2;
+						}
+						j++;
+				}
+				i++;
 		}
-		j++;
-	}
+		j = 0;
+		while (j < size)
+		{
+				i = 0;
+				tmpMax = -1;
+				while(i < size)
+				{
+						if (vecmap[i][j] && j % size == (findEndPos(vecmap[i][j]) + 1) % size)
+						{
+								if (vecmap[i][j] > tmpMax)
+										tmpMax = vecmap[i][j];
+								else
+										pound += 2;
+						}
+						i++;
+				}
+				j++;
+		}
 }
 
-void	State::check_map()
+void	State::check_map(vector <vector <int> > vecmap)
 {
-	for (int i = 0; i < size; i++)
-	{
-		for (int j = 0;j < size; j++)
-			if(map[i][j] != 0){
-				if(map[i][j] != i * size + (j + 1)){
-					pound++;}}
-	}
+		int pos = 0;
+		for (int i = 0; i < size; i++)
+		{
+				for (int j = 0;j < size; j++)
+						if(vecmap[i][j] != 0)
+						{
+								pos = findEndPos(vecmap[i][j]);
+								if(i != pos / size || j != pos % size)
+								{
+										pound++;
+								}
+						}
+		}
 }

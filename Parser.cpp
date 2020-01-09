@@ -116,6 +116,11 @@ int		manage_arg(int ac,char **arg)
 				g_option = 2;
 				return(i + 1);
 			}
+			else if (arg[i][1] == 'b')
+		{
+			g_option = 3;
+			return(i + 1);
+		}
 			else if (arg[i][1] == 'g')
 			{
 				g_option = 4;
