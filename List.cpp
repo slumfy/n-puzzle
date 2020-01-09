@@ -113,21 +113,18 @@ int Lists::in_closed_list(State state)
 void Lists::astar(State first)
 {
 	State current;
-	// static int min_pound = 100000;
+	static int total_open = 0;
 	int i;
 
 	addToOList(first);
 	while (open_list.size())
 	{
 		current = open_list.back();
-		// printf("------ CURENT --------\n");
-		// printf("pound : %d nb_coups : %d total_pound : %d\n", current.pound, current.nb_move, current.total_pound);
-		// current.print_taquin();
 		popOList();
 		if (current.pound == 0)
 		{
 			current.unravel();
-			printf("finished in %d moves\n", current.nb_move);
+			printf("finished in %d moves. Time complexity : %lu, Space complexity : %lu\n", current.nb_move, closed_list.size(), closed_list.size() + total_open);
 			return ;
 		}
 		current.create_child();
@@ -137,29 +134,13 @@ void Lists::astar(State first)
 			if (!in_closed_list(*it) && ! isInOList(*it))
 			{
 				addToOList(*it);
+				if (total_open < (int)open_list.size())
+					total_open = open_list.size();
 				i++;
 			}
 		}
 		addToCList(current);
-		printf("OPEN LIST : size = %d, increase : %2d, pound %2d, total_pound %3d\n", (int)open_list.size(), i - 1, current.pound, current.total_pound);
-		// i = 0;
-		// while (i < (int)open_list.size())
-		// {
-		 	// printf("pound : %d nb_coups : %d total_pound : %d\n", open_list[i].pound, open_list[i].nb_move, open_list[i].total_pound);
-			// open_list[i].print_taquin();
-			// printf("\n");
-		// 	i++;
-		// }
-		printf("CLOSED LIST : size = %d\n", (int)closed_list.size());
-		// i = 0;
-		// while (i < (int)closed_list.size())
-		// {
-		// 	printf("pound : %d nb_coups : %d total_pound : %d\n", closed_list[i].pound, closed_list[i].nb_move, closed_list[i].total_pound);
-		// 	closed_list[i].print_taquin();
-		// 	printf("\n");
-		// 	i++;
-		// }
-		// printf("------ END CURENT --------\n");
-		//  usleep(500000);
+	//	printf("OPEN LIST : size = %d, increase : %2d, pound %2d, total_pound %3d\n", (int)open_list.size(), i - 1, current.pound, current.total_pound);
+	//	printf("CLOSED LIST : size = %d\n", (int)closed_list.size());
 	}
 }

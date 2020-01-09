@@ -16,10 +16,10 @@ int	State::getInvCount()
 	vector <int> tabl;
 
 	for(int i = 0; i < (int)map.size();i++)
- 	{
- 		for (int j = 0; j < (int)map[i].size(); j++)
- 			tabl.push_back(map[i][j]);
- 	}
+	{
+		for (int j = 0; j < (int)map[i].size(); j++)
+			tabl.push_back(map[i][j]);
+	}
 	for (int j = 0; j < size * size; j++)
 		for (int i = j; i < size * size; i++)
 			if (tabl[i] && tabl[i] < tabl[j])
@@ -40,6 +40,15 @@ bool State::isTaquin()
 {
 	int max = (size * size) - 1;
 	int itab[max + 1];
+
+	if (map.size() == (size_t)size)
+	{
+		for(size_t i = 0; i < map.size(); i++)
+			if (map[i].size() != (size_t)size)
+				return (0);
+	}
+	else
+		return (0);
 	for (int i = 0; i < max + 1; i++)
 		itab[i] = i;
 	for(int i = 0; i < (int)map.size();i++)

@@ -59,12 +59,10 @@ State::State(vector <vector <int> > new_map, int len, State *dad, t_move lst_mov
 				nb_move = 0;
 				total_pound = 0;
 		}
-		// printf("pound : %d\ntotal_pound : %d\n",pound, total_pound);
 }
 
 void	State::unravel(void)
 {
-		// cout << "coucou";
 		for (int k = 0; k < (int)dads.size(); k++)
 		{
 				for(int i = 0; i < (int)dads[k].size();i++)
@@ -73,10 +71,8 @@ void	State::unravel(void)
 								cout << dads[k][i][j] << " ";
 						cout << "\n";
 				}
-				cout << "\n";
-		}
 		cout << "\n";
-
+		}
 }
 
 void State::move(t_move move)

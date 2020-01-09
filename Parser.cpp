@@ -78,7 +78,6 @@ int	get_puzzle_size(State *puzzle, fstream *file)
 {
 	string line;
 	int err;
-
 	while(getline(*file,line))
 	{
 		err = is_comment(line);
@@ -92,9 +91,18 @@ int	get_puzzle_size(State *puzzle, fstream *file)
 			stringstream iss(line);
 			while(iss >> comment)
 			{
-				puzzle->size = atoi(comment.c_str());
-				return (0);
+			static int i = 0;
+			i++;
+				if (is_comment(comment) == 2)
+					return (1);
+				if (puzzle->size == 0)
+				{
+					puzzle->size = atoi(comment.c_str());
+				}
+				else
+					return (1);
 			}
+			return (0);
 		}
 	}
 	return (1);
@@ -117,10 +125,10 @@ int		manage_arg(int ac,char **arg)
 				return(i + 1);
 			}
 			else if (arg[i][1] == 'b')
-		{
-			g_option = 3;
-			return(i + 1);
-		}
+			{
+				g_option = 3;
+				return(i + 1);
+			}
 			else if (arg[i][1] == 'g')
 			{
 				g_option = 4;
